@@ -1,5 +1,4 @@
 import numpy as np
-import fluid_prop
 
 def difusion_cds_weighted(mesh, fluid_prop, boundary_cond, t):
 
