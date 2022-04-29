@@ -69,6 +69,8 @@ problem = lambda w, t: None
 dt_courant = courant(mesh, u, sim_config)
 dt = DT(maximum= sim_config.tfinal, dt_calc = dt_calc, dt0= dt0, courant = dt_courant)
 
+w0 = np.transpose(init_cond.T[mesh.Rc[:, 0]][mesh.Rc[:, 1]])
+
 start = time.time()
 
 w, t, criteria = solver(

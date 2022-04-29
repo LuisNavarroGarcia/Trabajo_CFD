@@ -6,14 +6,14 @@ class Mesh():
     def __init__(self, num_cells):
         
         #load cell data
-        self.cells = np.loadtxt('cells_{}.dat'.format(num_cells)) 
+        self.cells = np.loadtxt(f'cells_{num_cells}.dat') 
         # load node data
-        self.Rn = np.loadtxt('nodes_{}.dat'.format(num_cells))
+        self.Rn = np.loadtxt(f'nodes_{num_cells}.dat')
         # load boundary conditions
-        lower_bc = np.loadtxt('bc_1_{}.dat'.format(num_cells))
-        upper_bc = np.loadtxt('bc_2_{}.dat'.format(num_cells)) 
-        left_bc = np.loadtxt('bc_3_{}.dat'.format(num_cells)) 
-        right_bc = np.loadtxt('bc_4_{}.dat'.format(num_cells))
+        lower_bc = np.loadtxt(f'bc_1_{num_cells}.dat')
+        upper_bc = np.loadtxt(f'bc_2_{num_cells}.dat') 
+        left_bc = np.loadtxt(f'bc_3_{num_cells}.dat') 
+        right_bc = np.loadtxt(f'bc_4_{num_cells}.dat')
         self.bc = [lower_bc, upper_bc, left_bc, right_bc]
 
         

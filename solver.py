@@ -21,6 +21,11 @@ def solver(w0, t0, sim_config, problem, propagator, dt, stop_criteria):
 
         tsol[iteration] = t
         iteration += 1
-        updated_dt = dt.calc(wsol, updated_dt, dt)
+        
+        try:
+            updated_dt = dt.calc(wsol, updated_dt, dt)
+        except Exception:
+            updated_dt = dt.dt0
+            print('Using constant dt')
     
     return wsol, tsol, criteria
