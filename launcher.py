@@ -3,9 +3,14 @@ from fluid_prop import FluidProp
 from initial_conditions import InitCond
 from propagators import euler_explicit, euler_implicit, euler_pred_corr, runge_kutta, crank_nicolson
 from spatial_discretization import spatial_discretization
-from conv_upwind_order1 import conv_upwind_order1
+from convection import conv_upwind_order1
+from diffusion import difusion_cds, difusion_cds_weighted
 from stopping_criterion import stopping_criterion
 from mesh import Mesh
+from timestep import dt_adaptative, dt_constant, courant, DT
+import time
+from solver import solver
+from sim_config import SimConfig
 
 fluid_prop = FluidProp() #change to add arguments
     
@@ -13,19 +18,14 @@ u = lambda x, y, t: np.full((x, 2), 0.)
 
 num_cells = 4 
 
-bc_type = {
-    'upper': 1,
-    'lower': 1,
-    'left': 1,
-    'right': 1
-}
+bc_type = np.array([1, 1, 1, 1])
 
-bc_handler = {
-    'upper': lambda x, y, t : 300,
-    'lower': lambda x, y, t : 600,
-    'left': lambda x, y, t : 400,
-    'right': lambda x, y, t : 1000
-}
+bc_handler = np.array([
+    lambda x, y, t : 300,
+    lambda x, y, t : 600,
+    lambda x, y, t : 400,
+    lambda x, y, t : 1000
+])
 
 init_cond = InitCond(t0 = 0, u = u)
 
@@ -37,23 +37,47 @@ spatial_discret = lambda mesh, fluid_prop, diffusion_integrator, convection_inte
     mesh, fluid_prop, bc, u, w, t , type_storage, diffusion_integrator, convection_integrator
 )
 
-diffusion_integrator = None
+diffusion_integrator = difusion_cds
 convection_integrator = conv_upwind_order1
 
-dt_calc = None
+dt_calc = dt_adaptative
 dt0 = 0.01
 
-v_criteria = None
-v_values = None
-v_AndOr = None
+v_criteria = np.array([0, 0, 0, 1])
+v_values = np.array([0.4, 100, 0.007, 2, 0.005, 5])
+v_AndOr = np.array([0, 0, 0, 0])
 
-activation_plots = None
+activation_plots = np.array([1, 1, 5])
 
 stop_criteria = lambda wsol, t, iteration : stopping_criterion(
     v_criteria, v_values, v_AndOr, activation_plots, wsol, t, iteration
 )
 
-sim_config = None
+sim_config = SimConfig(courant = 10, t_final = v_values[0])
 
 mesh = Mesh(num_cells)
 mesh.preprocess()
+
+# representation.color_map = None
+# representation.num_updates = None
+
+if dt_calc == dt_constant:
+    dt_calc = dt_constant(dt0)
+
+problem = lambda w, t: None
+
+dt_courant = courant(mesh, u, sim_config)
+dt = DT(maximum= sim_config.tfinal, dt_calc = dt_calc, dt0= dt0, courant = dt_courant)
+
+start = time.time()
+
+w, t, criteria = solver(
+    w0 = w0, init_cond = init_cond.t0, sim_config = sim_config, problem = problem,
+    propagator = propagator, dt = dt, stop_criteria = stop_criteria 
+)
+
+end = time.time()
+
+simulation_time = end - start
+
+print(f'The simulation time has been: {simulation_time}')

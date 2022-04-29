@@ -1,5 +1,4 @@
 import numpy as np
-import dt
 
 def solver(w0, t0, sim_config, problem, propagator, dt, stop_criteria):
     iteration = 0

@@ -32,7 +32,7 @@ def conv_upwind_order1(mesh, cdc_tipo, u, t):
                     C_matrix[k,k] = C_matrix[k,k] - conv/V_k  
 
             else:  #si al lado hay frontera
-                if cdc_tipo == 1:
+                if cdc_tipo[np.absolute(k) - 1] == 1:
                     [BC_i, bc_i] = neumann_convection()
                 else:
                     [BC_i, bc_i] = dirichlet_convection()

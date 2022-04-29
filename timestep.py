@@ -31,7 +31,7 @@ def courant(mesh, u, sim_config):
       
     return dt_courant
 
-def dt_adaptative(w, d_t, t):
+def dt_adaptative(w, d_t, dt):
 
 
   TOL = 0.01
@@ -62,3 +62,10 @@ def dt_constant(dt0):
   dt = dt0
 
   return dt
+
+class DT():
+  def __init__(self, maximum , dt_calc, dt0, courant):
+    self.max = maximum
+    self.calc = dt_calc
+    self.dt0 = dt0
+    self.courant = courant

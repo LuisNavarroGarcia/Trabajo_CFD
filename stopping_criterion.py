@@ -127,28 +127,3 @@ def stopping_criterion(v_criteria, v_values, v_AndOr,
         stop = int(np.product(not_v_criteria + v_AndOr*stop_condition) > 0)
 
     return stop, stop_condition
-
-    """
-    IMPORTANTE: PARA EL PLOT DEL ERROR:
-    
-    point = np.array([58, 59])
-    error_value = 5
-    labelplot = 'holaaa'
-    it = 0
-    
-    if __name__ == '__main__':
-        nextNumber = ErrorPlot()
-        nextNumber(point, error_value, labelplot, it)
-        print(nextNumber.data_point_x)
-        print(nextNumber.data_point_y)
-        print(it)
-    
-    
-    # y luego ir metiendo:
-    nextNumber(point, error_value, labelplot, it)
-    
-    #PROBAR TAMBIÉN A PONER UN INTERRUPTOR PARA QUE SE ACTIVE EL PLOT SI QUIERO
-    
-    
-    
-    """
