@@ -93,29 +93,29 @@ def mean_error(temperatures, error_mean_limit,
         error_mean = 1
     
     else: 
-        mean_matrix = temperatures[:, b - num_iterations + 1 : b]
+        mean_matrix = temperatures[:, (b - int(num_iterations)):b]
         maximum_terms = np.max(mean_matrix, axis=1)
         minimum_terms = np.min(mean_matrix, axis=1)
         error_mean = np.mean(np.abs(maximum_terms - minimum_terms)/np.abs(minimum_terms))
 
         if error_mean <= error_mean_limit:
             stop = 1 #Stop calculation is mean error is low enougth
-            print(stop)
+            # print(stop)
         else:
             stop = 0 #Continue if mean error is still large
-            print(stop)
+            # print(stop)
 
-    print("mean_matrix:")
-    print(mean_matrix)
+    # print("mean_matrix:")
+    # print(mean_matrix)
 
-    print("maximum_terms:")
-    print(maximum_terms)
+    # print("maximum_terms:")
+    # print(maximum_terms)
 
-    print("minimum_terms:")
-    print(minimum_terms)
+    # print("minimum_terms:")
+    # print(minimum_terms)
 
-    print("error_mean:")
-    print(error_mean)
+    # print("error_mean:")
+    # print(error_mean)
 
     return stop, error_mean
 
@@ -154,28 +154,28 @@ def max_error(temperatures, error_max_limit,
         stop = 0
         error_max = 1
     else: 
-        max_error_matrix = temperatures[:, b - num_iterations + 1 : b]
+        max_error_matrix = temperatures[:, (b - int(num_iterations)):b]
         maximum_terms = np.max(max_error_matrix, axis=1)
         minimum_terms = np.min(max_error_matrix, axis=1)
         error_max = np.mean(np.abs(maximum_terms - minimum_terms)/np.abs(minimum_terms))
 
     if error_max <= error_max_limit:
         stop = 1 #Stop calculation is maximum error is low enougth
-        print(stop)
+        # print(stop)
     else:
         stop = 0 #Continue if maximum error is still large
-        print(stop)
+        # print(stop)
 
-    print("max_error_matrix:")
-    print(max_error_matrix)
+    # print("max_error_matrix:")
+    # print(max_error_matrix)
 
-    print("maximum_terms:")
-    print(maximum_terms)
+    # print("maximum_terms:")
+    # print(maximum_terms)
 
-    print("minimum_terms:")
-    print(minimum_terms)
+    # print("minimum_terms:")
+    # print(minimum_terms)
 
-    print("error_max:")
-    print(error_max)
+    # print("error_max:")
+    # print(error_max)
 
     return stop, error_max

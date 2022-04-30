@@ -29,7 +29,7 @@ def courant(mesh, u, sim_config):
     C = sim_config.courant
     try:
       dt_courant = C * (DeltaX_min / lmda)
-    except Exception:
+    except ZeroDivisionError:
       dt_courant = np.inf
       
     return dt_courant

@@ -26,8 +26,8 @@ class ErrorPlot():
             plt.show()
             
         if it >= 2:
-            self.data_point_x = np.append(self.data_point_x, point[0])
-            self.data_point_y = np.append(self.data_point_y, point[1])
+            self.data_point_x = np.append(self.data_point_x, it)
+            self.data_point_y = np.append(self.data_point_y, point)
             self.error_array = np.append(self.error_array, error_value)
             plt.plot(self.data_point_x, self.data_point_y, 'bo-', self.data_point_x, self.error_array, 'go-')
             # Addition of tittle, labels, ...

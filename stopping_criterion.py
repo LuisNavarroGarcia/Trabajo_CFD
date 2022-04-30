@@ -84,24 +84,24 @@ def stopping_criterion(v_criteria, v_values, v_AndOr,
 
     stop_condition = np.zeros(4)
     calculated_value = np.zeros(4)
-    print(stop_condition)
-    print(calculated_value)
+    # print(stop_condition)
+    # print(calculated_value)
 
     for i in range(np.size(v_criteria)):
         if v_criteria[i] == 1:
             
             if i == 0:
-                [stop_condition[i], calculated_value[i]] = time_step(t, v_values[i])
+                stop_condition[i], calculated_value[i] = time_step(t, v_values[i])
 
             if i == 1: 
-                [stop_condition[i], calculated_value[i]] = max_iterations(iteration, v_values[i])
+                stop_condition[i], calculated_value[i] = max_iterations(iteration, v_values[i])
         
             if i == 2: 
-                [stop_condition[i], calculated_value[i]] = max_error(wsol, v_values[i],
+                stop_condition[i], calculated_value[i] = max_error(wsol, v_values[i],
                 v_values[i+1])
 
             if i == 3:
-                [stop_condition[i], calculated_value[i]] = mean_error(wsol, v_values[i+1]
+                stop_condition[i], calculated_value[i] = mean_error(wsol, v_values[i+1]
                 , v_values[i+2])
     
         
@@ -109,11 +109,11 @@ def stopping_criterion(v_criteria, v_values, v_AndOr,
 
     if activation_plots[0] == 1:
         if i==2 and v_criteria[2]==1 and activation_plots[1]==0 and (iteration%activation_plots[2]) == 0:
-            error_plot(iteration, calculated_value[2], v_values[2], 
-                       'Maximum error [-]' )
+            error_plot(it = iteration, point = calculated_value[2], error_value = v_values[2], 
+                       labelplot = 'Maximum error [-]' )
         if i==3 and v_criteria[3]==1 and activation_plots[1]==1 and (iteration% activation_plots[2]) == 0: 
-            error_plot(iteration, calculated_value[3], v_values[3], 
-                       'Mean error [-]' )
+            error_plot(it = iteration, point = calculated_value[3], error_value = v_values[4], 
+                       labelplot = 'Mean error [-]' )
 
     not_v_criteria = 1 - v_criteria
 
