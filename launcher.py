@@ -14,6 +14,7 @@ from solver import solver
 from sim_config import SimConfig
 from boundary_conditions import BC
 import argparse
+from plots import contour_plot
 
 # parser = argparse.ArgumentParser(description = None)
 # parser.add_argument('--num_cells', type = int, required = True, help = '')
@@ -102,3 +103,5 @@ end = time.time()
 simulation_time = end - start
 
 print(f'The simulation time has been: {simulation_time}')
+
+contour_plot(w = w[:, -1], mesh = mesh, num_map = 2)
