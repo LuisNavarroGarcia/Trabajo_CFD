@@ -20,7 +20,11 @@ import argparse
 # parser.add_argument('--num_cells', type = int, required = True, help = '')
 # args = parser.parse_args()
 
-fluid_prop = FluidProp() #change to add arguments
+k = 0.025 # Thermal Conductivity [W/(m·K)]
+cv = 717.5  # Specific Heat [J/(kg·K)]
+rho = 1.225 # Density [kg/m^3]
+
+fluid_prop = FluidProp(k = k, cv = cv, rho = rho)
     
 u = lambda x, y, t: np.full((len(x), 2), 0.)
 

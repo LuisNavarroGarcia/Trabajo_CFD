@@ -23,7 +23,7 @@ class ErrorPlot():
             plt.title('Representacion de dos funciones')
             plt.xlabel('Iterations')
             plt.ylabel(labelplot)
-            plt.show()
+            plt.plot()
             
         if it >= 2:
             self.data_point_x = np.append(self.data_point_x, it)
@@ -35,7 +35,7 @@ class ErrorPlot():
             plt.title('Representacion de dos funciones')
             plt.xlabel('Iterations')
             plt.ylabel(labelplot)
-            plt.show()
+            plt.plot()
             
         return self.data_point_x, self.data_point_y, it
 
