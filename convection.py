@@ -1,5 +1,4 @@
 import numpy as np
-from fluid_prop import rho, cv
 from boundary_conditions import neumann_convection, dirichlet_convection
 
 def conv_upwind_order1(mesh = None, fluid_prop = None, bc = None, u = None, w = None, t = None):
@@ -20,7 +19,7 @@ def conv_upwind_order1(mesh = None, fluid_prop = None, bc = None, u = None, w = 
             A_ij = mesh.areas[i, j] # area cara j, celda i
             n_ij = [mesh.normals[i, j, 0], mesh.normals[i, j, 1]] #normal exterior de la cara j de la celda i
             vn = np.dot(v, n_ij)
-            conv = -A_ij * vn * rho * cv #rho*cv??????????????????????  
+            conv = -A_ij * vn * fluid_prop.rho * fluid_prop.cv #rho*cv??????????????????????  
             
             if k >= 0:  #si al lado hay celda
                 if vn < 0:     #si la celda vecina esta aguas arriba

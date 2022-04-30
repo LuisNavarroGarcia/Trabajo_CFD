@@ -41,7 +41,7 @@ init_cond = InitCond(t0 = 0, u = u)
 
 propagator = crank_nicolson
 
-type_storage = 1
+type_storage = 0
 
 spatial_discret = lambda mesh, fluid_prop, diffusion_integrator, convection_integrator, bc, u, w, t : spatial_discretization(
     mesh = mesh, fluid_prop = fluid_prop, bc = bc, u = u, w = w, t = t , type_storage = type_storage,
@@ -84,7 +84,7 @@ problem = lambda w, t: energy_conservation(
 dt_courant = courant(mesh, u, sim_config)
 dt = DT(maximum= sim_config.tfinal, dt_calc = dt_calc, dt0= dt0, courant = dt_courant)
 
-w0 = np.transpose(init_cond.T([mesh.Rc[:, 0]],[mesh.Rc[:, 1]]))
+w0 = np.transpose(init_cond.T(mesh.Rc[:, 0], mesh.Rc[:, 1]))
 
 start = time.time()
 
