@@ -40,18 +40,13 @@ def conv_upwind_order1(mesh = None, fluid_prop = None, bc = None, u = None, w = 
                     bc = bc_vec , conv = conv, iteration = i, x = centroid_face[0], y = centroid_face[1], t = t,
                     mesh = mesh, fluid_prop = fluid_prop
                     )
+   
+                if vn < 0:
+                    bc[i]=bc_i
+                else:
+                    BC[i,i]=BC_i
+                    
     return C_matrix, BC_i, bc_i
-                
-                
-                
-    #            frontera = np.absolute(k) #frontera??
-    #            r_cara = [Mesh.faces[i,j,1], Mesh.faces[i,j,2]]
-    #            conv = -A_ij*vn/V_i #*rho*cv????????????????
-    #            [BC_i, bc_i]=cdc.tipo{frontera,2}(cdc.handler{frontera]},...
-    #                BC,bc,conv,i,r_cara(1),r_cara(2),t)
-    #            if vn<0
-    #                bc[i]=bc_i
-    #            else
-    #                BC[i,i]=BC_i
+
 
                 
