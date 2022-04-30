@@ -14,7 +14,7 @@ class Mesh():
         upper_bc = np.loadtxt(f'bc_2_{num_cells}.dat') 
         left_bc = np.loadtxt(f'bc_3_{num_cells}.dat') 
         right_bc = np.loadtxt(f'bc_4_{num_cells}.dat')
-        self.bc = [lower_bc, upper_bc, left_bc, right_bc]
+        self.bc = np.array([lower_bc, upper_bc, left_bc, right_bc])
 
         
     def preprocess(self):
