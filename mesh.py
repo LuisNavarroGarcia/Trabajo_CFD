@@ -6,22 +6,22 @@ class Mesh():
     def __init__(self, num_cells):
         
         #load cell data
-        self.cells = np.loadtxt(f'cells_{num_cells}.dat') 
+        self.cells = np.loadtxt(f'cells_{num_cells}.dat', dtype= np.int32)
         # load node data
         self.Rn = np.loadtxt(f'nodes_{num_cells}.dat')
         # load boundary conditions
-        lower_bc = np.loadtxt(f'bc_1_{num_cells}.dat')
-        upper_bc = np.loadtxt(f'bc_2_{num_cells}.dat') 
-        left_bc = np.loadtxt(f'bc_3_{num_cells}.dat') 
-        right_bc = np.loadtxt(f'bc_4_{num_cells}.dat')
-        self.bc = np.array([lower_bc, upper_bc, left_bc, right_bc])
+        lower_bc = np.loadtxt(f'bc_1_{num_cells}.dat', dtype= np.int32)
+        upper_bc = np.loadtxt(f'bc_2_{num_cells}.dat', dtype= np.int32) 
+        left_bc = np.loadtxt(f'bc_3_{num_cells}.dat', dtype= np.int32) 
+        right_bc = np.loadtxt(f'bc_4_{num_cells}.dat', dtype= np.int32)
+        self.bc = [lower_bc, upper_bc, left_bc, right_bc]
 
         
     def preprocess(self):
         
         # initialize arrays
         self.V = np.zeros(len(self.cells))
-        self.neighbours = np.zeros((len(self.cells), 3))
+        self.neighbours = np.zeros((len(self.cells), 3), dtype= np.int32)
         self.areas = np.zeros((len(self.cells), 3))
         self.normals = np.zeros((len(self.cells), 3, 2))
         self.Rc = np.zeros((len(self.cells), 2))
@@ -34,9 +34,9 @@ class Mesh():
             indexes = self.cells[i] 
 
             # Get point that form a cell
-            point1 = self.Rn[int(indexes[0])-1] 
-            point2 = self.Rn[int(indexes[1])-1] 
-            point3 = self.Rn[int(indexes[2])-1]
+            point1 = self.Rn[indexes[0]-1] 
+            point2 = self.Rn[indexes[1]-1] 
+            point3 = self.Rn[indexes[2]-1]
 
             # Calculate sides
             delta12 = np.subtract(point2,point1)

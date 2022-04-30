@@ -13,10 +13,16 @@ import time
 from solver import solver
 from sim_config import SimConfig
 from boundary_conditions import BC
+import argparse
+
+# parser = argparse.ArgumentParser(description = None)
+# parser.add_argument('--num_cells', type = int, required = True, help = '')
+# parser.add_argument('--num_cells', type = int, required = True, help = '')
+# args = parser.parse_args()
 
 fluid_prop = FluidProp() #change to add arguments
     
-u = lambda x, y, t: np.full((x, 2), 0.)
+u = lambda x, y, t: np.full((len(x), 2), 0.)
 
 num_cells = 4 
 
@@ -71,18 +77,19 @@ if dt_calc == dt_constant:
 
 problem = lambda w, t: energy_conservation(
     w = w, t = t, u = u, mesh = mesh, fluid_prop = fluid_prop,
-    convection_integrator = convection_integrator, diffusion_integrator = diffusion_integrator, bc = bc
+    convection_integrator = convection_integrator, diffusion_integrator = diffusion_integrator, bc = bc,
+    spatial_discretization = spatial_discret
 )
 
 dt_courant = courant(mesh, u, sim_config)
 dt = DT(maximum= sim_config.tfinal, dt_calc = dt_calc, dt0= dt0, courant = dt_courant)
 
-w0 = np.transpose(init_cond.T[mesh.Rc[:, 0]][mesh.Rc[:, 1]])
+w0 = np.transpose(init_cond.T([mesh.Rc[:, 0]],[mesh.Rc[:, 1]]))
 
 start = time.time()
 
 w, t, criteria = solver(
-    w0 = w0, init_cond = init_cond.t0, sim_config = sim_config, problem = problem,
+    w0 = w0, t0 = init_cond.t0, sim_config = sim_config, problem = problem,
     propagator = propagator, dt = dt, stop_criteria = stop_criteria 
 )
 

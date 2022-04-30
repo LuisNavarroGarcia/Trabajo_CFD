@@ -2,32 +2,35 @@ import numpy as np
 
 def courant(mesh, u, sim_config):
 
-  [m, n] = np.shape(mesh.cells)
+  m, n = np.shape(mesh.cells)
   DeltaX_min = 100
     
   for i in range(m):
-    xs = []
-    ys = []
+    xs = np.array([])
+    ys = np.array([])
 
     for j in range(n):
-      xs = np.array(xs, mesh.Rc[mesh.cells[i, j], 0])
-      ys = np.array(ys, mesh.Rc[mesh.cells[i, j], 1])
+      xs = np.append(xs, mesh.Rn[mesh.cells[i, j]][0])
+      ys = np.append(ys, mesh.Rn[mesh.cells[i, j]][1])
 
-    dxs = np.array(xs[0] - xs[1], xs[0] - xs[2], xs[2] - xs[1])
-    dys = np.array(ys[0] - ys[1], ys[0] - ys[2], ys[2] - ys[1])
+    dxs = np.array([xs[0] - xs[1], xs[0] - xs[2], xs[2] - xs[1]])
+    dys = np.array([ys[0] - ys[1], ys[0] - ys[2], ys[2] - ys[1]])
     dist = np.sqrt(dxs**2 + dys**2)
     min_actual = min(dist)
     DeltaX_min = min(min_actual, DeltaX_min)
 
     # Max. Velocity. Sampling all the function is needed
-    eigenvalue = max(max(u(np.linspace(min(mesh.Rn[:, 0]), max(mesh.Rn[:, 0]), 21), \
-    np.linspace(min(mesh.Rn[:, 1]), max(mesh.Rn[:, 1]), 21), \
-    np. linspace(0, sim_config.tfinal, 21))))
+    lmda = np.max(u(np.linspace(min(mesh.Rn[:, 0]), max(mesh.Rn[:, 0]), 20), \
+    np.linspace(min(mesh.Rn[:, 1]), max(mesh.Rn[:, 1]), 20), \
+    np. linspace(0, sim_config.tfinal, 20)))
                 
 
     # Applying Courant's stability condition
     C = sim_config.courant
-    dt_courant = C * (DeltaX_min / eigenvalue)
+    try:
+      dt_courant = C * (DeltaX_min / lmda)
+    except Exception:
+      dt_courant = np.inf
       
     return dt_courant
 

@@ -6,7 +6,7 @@ def solver(w0, t0, sim_config, problem, propagator, dt, stop_criteria):
     wsol = w0
     t = t0
     tsol = np.array([])
-    tsol[iteration] = t
+    tsol = np.append(tsol, t)
     iteration += 1
     stop = False
     updated_dt = dt.dt0
@@ -19,7 +19,7 @@ def solver(w0, t0, sim_config, problem, propagator, dt, stop_criteria):
 
         stop, criteria = stop_criteria(wsol, t[-1], iteration)
 
-        tsol[iteration] = t
+        tsol = np.append(tsol, t)
         iteration += 1
         
         try:
