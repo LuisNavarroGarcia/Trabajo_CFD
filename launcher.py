@@ -1,4 +1,5 @@
 import numpy as np
+from energy_conservation import energy_conservation
 from fluid_prop import FluidProp
 from initial_conditions import InitCond
 from propagators import euler_explicit, euler_implicit, euler_pred_corr, runge_kutta, crank_nicolson
@@ -37,7 +38,8 @@ propagator = crank_nicolson
 type_storage = 1
 
 spatial_discret = lambda mesh, fluid_prop, diffusion_integrator, convection_integrator, bc, u, w, t : spatial_discretization(
-    mesh, fluid_prop, bc, u, w, t , type_storage, diffusion_integrator, convection_integrator
+    mesh = mesh, fluid_prop = fluid_prop, bc = bc, u = u, w = w, t = t , type_storage = type_storage,
+     diffusion_integrator = diffusion_integrator, convection_integrator = convection_integrator
 )
 
 diffusion_integrator = difusion_cds
@@ -67,7 +69,10 @@ mesh.preprocess()
 if dt_calc == dt_constant:
     dt_calc = dt_constant(dt0)
 
-problem = lambda w, t: None
+problem = lambda w, t: energy_conservation(
+    w = w, t = t, u = u, mesh = mesh, fluid_prop = fluid_prop,
+    convection_integrator = convection_integrator, diffusion_integrator = diffusion_integrator, bc = bc
+)
 
 dt_courant = courant(mesh, u, sim_config)
 dt = DT(maximum= sim_config.tfinal, dt_calc = dt_calc, dt0= dt0, courant = dt_courant)
