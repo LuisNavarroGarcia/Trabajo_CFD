@@ -56,3 +56,8 @@ def dirichlet_diffusion(
 
     return BC_i, bc_i, w, q
 
+class BC():
+    def __init__(self, bc_handler, bc_type):
+        self.bc_handler = bc_handler
+        self.bc_type = bc_type
+

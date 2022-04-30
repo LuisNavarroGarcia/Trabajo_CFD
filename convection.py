@@ -2,7 +2,7 @@ import numpy as np
 from fluid_prop import rho, cv
 from boundary_conditions import neumann_convection, dirichlet_convection
 
-def conv_upwind_order1(mesh, bc_type, bc_handler, u, t):
+def conv_upwind_order1(mesh = None, fluid_prop = None, bc = None, u = None, w = None, t = None):
 
     N = len(mesh.cells)
     C_matrix = np.zeros((N, N)) # matriz NxN
@@ -29,14 +29,14 @@ def conv_upwind_order1(mesh, bc_type, bc_handler, u, t):
                     C_matrix[k, k] = C_matrix[k, k]-conv/V_k   
             else:  #si al lado hay frontera
                 centroid_face = [mesh.faces[i, j, 0], mesh.faces[i, j, 1]]    #centroides de las caras
-                if bc_type(np.absolute(k)-1) == 1:
+                if bc.bc_type(np.absolute(k)-1) == 1:
                     [BC_i, bc_i] = neumann_convection(
-                        bc_handler = bc_handler[np.absolute(k)-1] , BC = BC,
+                        bc_handler = bc.bc_handler[np.absolute(k)-1] , BC = BC,
                     bc = bc , conv = conv, iteration = i, x = centroid_face[0], y = centroid_face[1], t = t
                     )
                 else:
                     [BC_i, bc_i] = dirichlet_convection(
-                        bc_handler = bc_handler[np.absolute(k)-1] , BC = BC,
+                        bc_handler = bc.bc_handler[np.absolute(k)-1] , BC = BC,
                     bc = bc , conv = conv, iteration = i, x = centroid_face[0], y = centroid_face[1], t = t
                     )
     return C_matrix, BC_i, bc_i

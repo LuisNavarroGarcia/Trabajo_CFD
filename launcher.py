@@ -11,6 +11,7 @@ from timestep import dt_adaptative, dt_constant, courant, DT
 import time
 from solver import solver
 from sim_config import SimConfig
+from boundary_conditions import BC
 
 fluid_prop = FluidProp() #change to add arguments
     
@@ -26,6 +27,8 @@ bc_handler = np.array([
     lambda x, y, t : 400,
     lambda x, y, t : 1000
 ])
+
+bc = BC(bc_type = bc_type, bc_handler = bc_handler)
 
 init_cond = InitCond(t0 = 0, u = u)
 
