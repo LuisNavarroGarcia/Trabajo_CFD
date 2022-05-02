@@ -31,7 +31,7 @@ u = lambda x, y, t: np.full((len(x), 2), np.array([0., 0.075]))
 
 num_cells = 4
 
-bc_type = np.array([2, 2, 2, 2])
+bc_type = np.array([1, 1, 1, 1])
 
 bc_handler = np.array([
     lambda x, y, t : 300,
@@ -53,7 +53,7 @@ spatial_discret = lambda mesh, fluid_prop, diffusion_integrator, convection_inte
      diffusion_integrator = diffusion_integrator, convection_integrator = convection_integrator
 )
 
-diffusion_integrator = difusion_cds
+diffusion_integrator = difusion_cds_weighted
 convection_integrator = conv_upwind_order1
 
 dt_calc = dt_constant

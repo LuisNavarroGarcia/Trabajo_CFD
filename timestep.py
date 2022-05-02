@@ -10,8 +10,8 @@ def courant(mesh, u, sim_config):
     ys = np.array([])
 
     for j in range(n):
-      xs = np.append(xs, mesh.Rn[mesh.cells[i, j]][0])
-      ys = np.append(ys, mesh.Rn[mesh.cells[i, j]][1])
+      xs = np.append(xs, mesh.Rn[mesh.cells[i, j]-1][0])
+      ys = np.append(ys, mesh.Rn[mesh.cells[i, j]-1][1])
 
     dxs = np.array([xs[0] - xs[1], xs[0] - xs[2], xs[2] - xs[1]])
     dys = np.array([ys[0] - ys[1], ys[0] - ys[2], ys[2] - ys[1]])
@@ -19,30 +19,28 @@ def courant(mesh, u, sim_config):
     min_actual = min(dist)
     DeltaX_min = min(min_actual, DeltaX_min)
 
-    # Max. Velocity. Sampling all the function is needed
-    lmda = np.max(u(np.linspace(min(mesh.Rn[:, 0]), max(mesh.Rn[:, 0]), 20), \
-    np.linspace(min(mesh.Rn[:, 1]), max(mesh.Rn[:, 1]), 20), \
-    np. linspace(0, sim_config.tfinal, 20)))
-                
+  # Max. Velocity. Sampling all the function is needed
+  lmda = np.max(u(np.linspace(min(mesh.Rn[:, 0]), max(mesh.Rn[:, 0]), 20), \
+  np.linspace(min(mesh.Rn[:, 1]), max(mesh.Rn[:, 1]), 20), \
+  np. linspace(0, sim_config.tfinal, 20)))
+              
 
-    # Applying Courant's stability condition
-    C = sim_config.courant
-    try:
-      dt_courant = C * (DeltaX_min / lmda)
-    except ZeroDivisionError:
-      print('Will get replaced by +/- inf')
-      dt_courant = ((DeltaX_min*C)/abs(DeltaX_min*C))*np.inf
-      
-    return dt_courant
+  # Applying Courant's stability condition
+  C = sim_config.courant
+  try:
+    dt_courant = C * (DeltaX_min / lmda)
+  except ZeroDivisionError:
+    dt_courant = ((DeltaX_min*C)/abs(DeltaX_min*C))*np.inf
+  return dt_courant
 
 def dt_adaptative(w, d_t, dt):
 
 
-  TOL = 0.01
-  dt_max = 1E1
-  dt_min = 1E-2
-  err = np.linalg.norm(w[-1] - w[-2]) \
-        / np.linalg.norm(w[-2])
+  TOL = 0.005
+  dt_max = 1
+  dt_min = 1E-4
+  err = abs(np.linalg.norm(w[:, -1] - w[:, -2]) \
+        / np.linalg.norm(w[:, -2]))
   dt_opt = (TOL / err) * d_t
 
   if err > TOL:
