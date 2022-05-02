@@ -1,3 +1,5 @@
+import numpy as np
+
 def time_step(time, time_max):
     
     """stop_condition_tphysical : it determines if the function
@@ -84,8 +86,6 @@ def mean_error(temperatures, error_mean_limit,
             
     error_mean : mean error of the calculations in the last iterations
     """
-    import numpy as np
-
     b = np.shape(temperatures)[1]
 
     if b < num_iterations:

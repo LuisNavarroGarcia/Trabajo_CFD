@@ -8,7 +8,7 @@ from convection import conv_upwind_order1
 from diffusion import difusion_cds, difusion_cds_weighted
 from stopping_criterion import stopping_criterion
 from mesh import Mesh
-from timestep import dt_adaptative, dt_constant, courant, DT
+from timestep import DT, dt_adaptative, dt_constant, courant
 import time
 from solver import solver
 from sim_config import SimConfig

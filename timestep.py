@@ -30,7 +30,8 @@ def courant(mesh, u, sim_config):
     try:
       dt_courant = C * (DeltaX_min / lmda)
     except ZeroDivisionError:
-      dt_courant = np.inf
+      print('Will get replaced by +/- inf')
+      dt_courant = ((DeltaX_min*C)/abs(DeltaX_min*C))*np.inf
       
     return dt_courant
 

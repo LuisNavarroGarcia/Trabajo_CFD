@@ -9,3 +9,4 @@ class InitCond():
             self.u = lambda x, y : u(x, y, self.t0)
         except AttributeError:
             print('No Velocity Field entered')
+            raise
