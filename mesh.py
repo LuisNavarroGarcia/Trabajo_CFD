@@ -63,8 +63,8 @@ class Mesh():
             self.V[i] = np.array((1/2)*np.linalg.norm(np.cross(delta12, delta23)))
 
              # construct array of centroids
-            self.Rc[i] =  np.array([(point1[0]+point2[0]+point2[0])/3,
-                        (point1[1]+point2[1]+point2[1])/3])
+            self.Rc[i] =  np.array([(point1[0]+point2[0]+point3[0])/3,
+                        (point1[1]+point2[1]+point3[1])/3])
             
             # calculate external normal vectors
 
@@ -74,7 +74,7 @@ class Mesh():
             N1 = np.array([-dy1, dx1])/area1
             
             # check if it's not external, and recalculate if it's not
-            if np.cross(delta12, N1) < 0:
+            if np.dot(np.subtract(self.Rc[i],face1), N1) > 0:
                 N1 = np.array([dy1, -dx1])/area1
             
             #normal for second face
@@ -83,7 +83,7 @@ class Mesh():
             N2 = np.array([-dy2, dx2])/area2
             
             # check if it's not external, and recalculate if it's not
-            if np.cross(delta12, N2) < 0:
+            if np.dot(np.subtract(self.Rc[i],face2), N2) > 0:
                 N2 = np.array([dy2, -dx2])/area2
             
             #normal for third face
@@ -92,7 +92,7 @@ class Mesh():
             N3 = np.array([-dy3, dx3])/area3
             
             # check if it's not external, and recalculate if it's not
-            if np.cross(delta12, N3) < 0:
+            if np.dot(np.subtract(self.Rc[i],face3), N3) > 0:
                 N3 = np.array([dy3, -dx3])/area3
 
             # construct array of normals
