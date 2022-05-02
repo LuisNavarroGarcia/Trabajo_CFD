@@ -29,7 +29,7 @@ fluid_prop = FluidProp(k = k, cv = cv, rho = rho)
     
 u = lambda x, y, t: np.full((len(x), 2), 0.)
 
-num_cells = 4 
+num_cells = 4
 
 bc_type = np.array([1, 1, 1, 1])
 
@@ -44,7 +44,7 @@ bc = BC(bc_type = bc_type, bc_handler = bc_handler)
 
 init_cond = InitCond(t0 = 0, u = u)
 
-propagator = crank_nicolson
+propagator = euler_explicit
 
 type_storage = 0
 
@@ -56,7 +56,7 @@ spatial_discret = lambda mesh, fluid_prop, diffusion_integrator, convection_inte
 diffusion_integrator = difusion_cds
 convection_integrator = conv_upwind_order1
 
-dt_calc = dt_adaptative
+dt_calc = dt_constant
 dt0 = 0.01
 
 v_criteria = np.array([0, 0, 0, 1])
@@ -73,9 +73,6 @@ sim_config = SimConfig(courant = 10, t_final = v_values[0])
 
 mesh = Mesh(num_cells)
 mesh.preprocess()
-
-# representation.color_map = None
-# representation.num_updates = None
 
 if dt_calc == dt_constant:
     dt_calc = dt_constant(dt0)
