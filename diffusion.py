@@ -97,7 +97,7 @@ def difusion_cds_weighted(mesh = None, fluid_prop = None, bc = None, u = None, w
 
                r_i = np.array([mesh.Rc[i, 0], mesh.Rc[i, 1]])
                r_face = np.array([mesh.faces[i, j, 0], mesh.faces[i, j, 1]])
-               n_ij = np.array([mesh.normals[i, j, 0], mesh.normals([i, j, 1])])
+               n_ij = np.array([mesh.normals[i, j, 0], mesh.normals[i, j, 1]])
                d_ia = r_i - r_face
                d_norm = np.linalg.norm(d_ia)
                dn = np.dot(d_ia, n_ij)
