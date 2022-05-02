@@ -86,6 +86,7 @@ def mean_error(temperatures, error_mean_limit,
             
     error_mean : mean error of the calculations in the last iterations
     """
+    
     b = np.shape(temperatures)[1]
 
     if b < num_iterations:

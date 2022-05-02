@@ -17,9 +17,10 @@ def conv_upwind_order1(mesh = None, fluid_prop = None, bc = None, u = None, w = 
         for j in range(3):
             k = mesh.neighbours[i, j] # indice de la celda vecina de la cara j en la celda i
             A_ij = mesh.areas[i, j] # area cara j, celda i
-            n_ij = [mesh.normals[i, j, 0], mesh.normals[i, j, 1]] #normal exterior de la cara j de la celda i
+            n_ij = np.array([mesh.normals[i, j, 0], mesh.normals[i, j, 1]]) #normal exterior de la cara j de la celda i
             vn = np.dot(v, n_ij)
-            conv = -A_ij * vn * fluid_prop.rho * fluid_prop.cv #rho*cv??????????????????????  
+            
+            conv = np.dot(-A_ij, vn) #* fluid_prop.rho * fluid_prop.cv #rho*cv??????????????????????  
             
             if k >= 0:  #si al lado hay celda
                 if vn < 0:     #si la celda vecina esta aguas arriba
@@ -27,6 +28,7 @@ def conv_upwind_order1(mesh = None, fluid_prop = None, bc = None, u = None, w = 
                     C_matrix[i, k] = conv/V_i
                     C_matrix[k, k] = C_matrix[k, k]-conv/V_k   
             else:  #si al lado hay frontera
+                conv = -A_ij*vn/V_i
                 centroid_face = [mesh.faces[i, j, 0], mesh.faces[i, j, 1]]    #centroides de las caras
                 if bc.bc_type[np.absolute(k)-1] == 1:
                     [BC_i, bc_i, _, _] = neumann_convection(
@@ -42,11 +44,11 @@ def conv_upwind_order1(mesh = None, fluid_prop = None, bc = None, u = None, w = 
                     )
    
                 if vn < 0:
-                    bc[i]=bc_i
+                    bc_vec[i]=bc_i
                 else:
                     BC[i,i]=BC_i
-                    
-    return C_matrix, BC_i, bc_i
+   
+    return C_matrix, BC, bc_vec
 
 
                 

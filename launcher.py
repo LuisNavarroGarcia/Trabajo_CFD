@@ -8,7 +8,7 @@ from convection import conv_upwind_order1
 from diffusion import difusion_cds, difusion_cds_weighted
 from stopping_criterion import stopping_criterion
 from mesh import Mesh
-from timestep import DT, dt_adaptative, dt_constant, courant
+from timestep import dt_adaptative, dt_constant, courant, DT
 import time
 from solver import solver
 from sim_config import SimConfig
@@ -27,11 +27,11 @@ rho = 1.225 # Density [kg/m^3]
 
 fluid_prop = FluidProp(k = k, cv = cv, rho = rho)
     
-u = lambda x, y, t: np.full((len(x), 2), 0.)
+u = lambda x, y, t: np.full((len(x), 2), np.array([0., 0.075]))
 
 num_cells = 4
 
-bc_type = np.array([1, 1, 1, 1])
+bc_type = np.array([2, 2, 2, 2])
 
 bc_handler = np.array([
     lambda x, y, t : 300,
@@ -60,10 +60,10 @@ dt_calc = dt_constant
 dt0 = 0.01
 
 v_criteria = np.array([0, 0, 0, 1])
-v_values = np.array([0.4, 100, 0.007, 2, 0.005, 5])
+v_values = np.array([10, 100, 0.007, 2, 0.005, 5])
 v_AndOr = np.array([0, 0, 0, 0])
 
-activation_plots = np.array([1, 1, 5])
+activation_plots = np.array([0, 0, 5])
 
 stop_criteria = lambda wsol, t, iteration : stopping_criterion(
     v_criteria, v_values, v_AndOr, activation_plots, wsol, t, iteration

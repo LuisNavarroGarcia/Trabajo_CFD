@@ -6,7 +6,7 @@ def difusion_cds(mesh = None, fluid_prop = None, bc = None, u = None, w = None, 
      num_cells = len(mesh.cells)
      K = np.zeros((num_cells, num_cells))
      BC = np.zeros((num_cells, num_cells))
-     bc_vec = np.zeros(num_cells)
+     bc_vec = np.zeros((num_cells,1))
 
 
 
@@ -20,9 +20,9 @@ def difusion_cds(mesh = None, fluid_prop = None, bc = None, u = None, w = None, 
                if mesh.neighbours[i, j] >= 0:
                
                     neighbour_index = mesh.neighbours[i, j]
-                    r_i = np.array(mesh.Rc[i, 0]), mesh.Rc[i, 1]
-                    r_j = np.array(mesh.Rc[neighbour_index, 0], mesh.Rc[neighbour_index, 1])
-                    d_ij = r_i - r_j
+                    r_i = np.array([mesh.Rc[i, 0], mesh.Rc[i, 1]])
+                    r_j = np.array([mesh.Rc[neighbour_index, 0], mesh.Rc[neighbour_index, 1]])
+                    d_ij = np.subtract(r_i, r_j)
                     d_norm = np.linalg.norm(d_ij)
                     dn = np.dot(d_ij, n_ij)
                     cond = -A_ij / V_i * fluid_prop.k * (dn / (d_norm * d_norm)) \
@@ -35,21 +35,22 @@ def difusion_cds(mesh = None, fluid_prop = None, bc = None, u = None, w = None, 
                     r_i = np.array([mesh.Rc[i, 0], mesh.Rc[i, 1]])
                     r_face = np.array([mesh.faces[i, j, 0], mesh.faces[i, j, 1]])
                     n_ij = np.array([mesh.normals[i, j, 0], mesh.normals[i, j, 1]])
-                    d_ic = r_i - r_face
+                    d_ic = np.subtract(r_i, r_face)
                     d_norm = np.linalg.norm(d_ic)
                     dn = np.dot(d_ic, n_ij)
                     cond = -A_ij / V_i * fluid_prop.k * (dn / (d_norm * d_norm)) \
                                    / (fluid_prop.cv * fluid_prop.rho) 
+                    
 
-                    if bc.bc_type[np.absolute(neighbour_index)-1] == 1:
+                    if bc.bc_type[np.absolute(mesh.neighbours[i, j])-1] == 1:
                          [BC_i, bc_i, _, _] = neumann_diffusion(
-                         bc_handler = bc.bc_handler[np.absolute(neighbour_index)-1] , BC = BC,
+                         bc_handler = bc.bc_handler[np.absolute(mesh.neighbours[i, j])-1] , BC = BC,
                          bc = bc_vec , conv = cond, iteration = i, x = r_face[0], y = r_face[1], t = t,
                          mesh = mesh, fluid_prop = fluid_prop
                          )
                     else:
                          [BC_i, bc_i, _, _] = dirichlet_diffusion(
-                         bc_handler = bc.bc_handler[np.absolute(neighbour_index)-1] , BC = BC,
+                         bc_handler = bc.bc_handler[np.absolute(mesh.neighbours[i, j])-1] , BC = BC,
                          bc = bc_vec , conv = cond, iteration = i, x = r_face[0], y = r_face[1], t = t,
                          mesh = mesh, fluid_prop = fluid_prop
                          )

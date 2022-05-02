@@ -27,5 +27,5 @@ def solver(w0, t0, sim_config, problem, propagator, dt, stop_criteria):
         except Exception:
             updated_dt = dt.dt0
             print('Using constant dt')
-    
+
     return wsol, tsol, criteria
