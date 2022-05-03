@@ -4,7 +4,7 @@ from fluid_prop import FluidProp
 from initial_conditions import InitCond
 from propagators import euler_explicit, euler_implicit, euler_pred_corr, runge_kutta, crank_nicolson
 from spatial_discretization import spatial_discretization
-from convection import conv_upwind_order1
+from convection import conv_upwind_order1, conv_cds
 from diffusion import difusion_cds, difusion_cds_weighted
 from stopping_criterion import stopping_criterion
 from mesh import Mesh
@@ -30,6 +30,7 @@ fluid_prop = FluidProp(k = k, cv = cv, rho = rho)
 u = lambda x, y, t: np.full((len(x), 2), np.array([0., 0.075]))
 
 num_cells = 4
+num_bc = 4
 
 bc_type = np.array([1, 1, 1, 1])
 
@@ -46,24 +47,22 @@ init_cond = InitCond(t0 = 0, u = u)
 
 propagator = euler_implicit
 
-type_storage = 0
-
 spatial_discret = lambda mesh, fluid_prop, diffusion_integrator, convection_integrator, bc, u, w, t : spatial_discretization(
-    mesh = mesh, fluid_prop = fluid_prop, bc = bc, u = u, w = w, t = t , type_storage = type_storage,
-     diffusion_integrator = diffusion_integrator, convection_integrator = convection_integrator
+    mesh = mesh, fluid_prop = fluid_prop, bc = bc, u = u, w = w, t = t , diffusion_integrator = diffusion_integrator,
+    convection_integrator = convection_integrator
 )
 
 diffusion_integrator = difusion_cds_weighted
-convection_integrator = conv_upwind_order1
+convection_integrator = conv_cds
 
-dt_calc = dt_adaptative
+dt_calc = dt_constant
 dt0 = 0.01
 
 v_criteria = np.array([0, 0, 0, 1])
 v_values = np.array([10, 100, 0.007, 2, 0.005, 5])
 v_AndOr = np.array([0, 0, 0, 0])
 
-activation_plots = np.array([0, 1, 1, 5])
+activation_plots = np.array([1, 1, 1, 5])
 
 stop_criteria = lambda wsol, t, iteration : stopping_criterion(
     v_criteria, v_values, v_AndOr, activation_plots, wsol, t, iteration
@@ -71,7 +70,7 @@ stop_criteria = lambda wsol, t, iteration : stopping_criterion(
 
 sim_config = SimConfig(courant = 10, t_final = v_values[0])
 
-mesh = Mesh(num_cells)
+mesh = Mesh(num_cells, num_bc)
 mesh.preprocess()
 
 if dt_calc == dt_constant:

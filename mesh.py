@@ -1,20 +1,23 @@
+from fileinput import filename
 from turtle import right
 import numpy as np
 
 class Mesh():
 
-    def __init__(self, num_cells):
+    def __init__(self, num_cells, num_bc):
         
         #load cell data
         self.cells = np.loadtxt(f'cells_{num_cells}.dat', dtype= np.int32)
         # load node data
         self.Rn = np.loadtxt(f'nodes_{num_cells}.dat')
         # load boundary conditions
-        lower_bc = np.loadtxt(f'bc_1_{num_cells}.dat', dtype= np.int32)
-        upper_bc = np.loadtxt(f'bc_2_{num_cells}.dat', dtype= np.int32) 
-        left_bc = np.loadtxt(f'bc_3_{num_cells}.dat', dtype= np.int32) 
-        right_bc = np.loadtxt(f'bc_4_{num_cells}.dat', dtype= np.int32)
-        self.bc = [lower_bc, upper_bc, left_bc, right_bc]
+
+        self.bc = []
+        for i in range(num_bc):
+            try:
+                self.bc.append(np.loadtxt(f'bc_{i+1}_{num_cells}.dat', dtype= np.int32))
+            except Exception:
+                print(f'Only found: {i} boundaries')
 
         
     def preprocess(self):
@@ -128,7 +131,7 @@ class Mesh():
                             neighbours[2] = j   
 
             # loop to check if there are boundary conditions and where are located
-            for side in range(4):
+            for side in range(len(self.bc)):
                 num_coincidences = 0
                 bc_nodes = np.array([])
 
