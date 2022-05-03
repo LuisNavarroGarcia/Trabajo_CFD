@@ -1,3 +1,4 @@
+from matplotlib import lines
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import griddata
@@ -21,7 +22,8 @@ class ErrorPlot():
             self.error_array_max = np.append(self.error_array_max, error_value)
             
             plt.plot(self.data_point_it_for_max, self.data_point_y_max, 'bo')
-            plt.plot(self.data_point_it_for_max, self.error_array_max, 'go')
+            # plt.plot(self.data_point_it_for_max, self.error_array_max, 'go')
+            plt.axhline(y = error_value, color = 'g', linestyle = 'dashed')
             
             # Addition of tittle, labels, ...
             plt.title('Convergence of the error')
@@ -117,7 +119,7 @@ def contour_plot(w, mesh, num_map, num_interp):
     rec = np.zeros(x_size)
     
     for i in range(x_size):
-        n = np.where(conectivity_list == i)[0] 
+        n = np.where(conectivity_list == i+1)[0] 
         # print('n: ', n)
         summatory = 0
         cont = 0
@@ -167,6 +169,6 @@ def contour_plot(w, mesh, num_map, num_interp):
     cp = ax.contourf(X, Y, Z, levels_contour, cmap=colourmap[num_map])
     fig.colorbar(cp) # Add a colorbar to a plot
     ax.set_title('Temperature Contour Plot')
-    ax.set_xlabel('x (cm)')
-    ax.set_ylabel('y (cm)')
+    ax.set_xlabel('x (mm)')
+    ax.set_ylabel('y (mm)')
     plt.show()
