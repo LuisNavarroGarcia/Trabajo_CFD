@@ -1,3 +1,4 @@
+import numpy as np
 from stop_conditions import time_step, max_error, max_iterations, mean_error
 from plots import ErrorPlot
 
@@ -78,14 +79,14 @@ def stopping_criterion(v_criteria, v_values, v_AndOr,
         Returns 2 if the criterion acomplished is the number of iterations
         Returns 3 if the criterion acomplished is the maximum time 
         Returns 4 if the criterion acomplished is the mean time 
-             """
-
-    import numpy as np
+             """  
 
     stop_condition = np.zeros(4)
     calculated_value = np.zeros(4)
     # print(stop_condition)
     # print(calculated_value)
+
+    error_plot = ErrorPlot()
 
     for i in range(np.size(v_criteria)):
         if v_criteria[i] == 1:
@@ -93,29 +94,23 @@ def stopping_criterion(v_criteria, v_values, v_AndOr,
             if i == 0:
                 stop_condition[i], calculated_value[i] = time_step(t, v_values[i])
 
-            if i == 1: 
+            elif i == 1: 
                 stop_condition[i], calculated_value[i] = max_iterations(iteration, v_values[i])
         
-            if i == 2: 
+            elif i == 2: 
                 stop_condition[i], calculated_value[i] = max_error(wsol, v_values[i],
                 v_values[i+1])
+                if activation_plots[0] == 1 and v_criteria[2]==1 and activation_plots[1]==1 and (iteration%activation_plots[3]) == 0:
+                    error_plot(it = iteration, point = calculated_value[2], error_value = v_values[2], plot_type = 0)
 
-            if i == 3:
-                stop_condition[i], calculated_value[i] = mean_error(wsol, v_values[i+1]
-                , v_values[i+2])
-    
-        
-    error_plot = ErrorPlot()
-
-    if activation_plots[0] == 1:
-        if i==2 and v_criteria[2]==1 and activation_plots[1]==0 and (iteration%activation_plots[2]) == 0:
-            error_plot(it = iteration, point = calculated_value[2], error_value = v_values[2], 
-                       labelplot = 'Maximum error [-]' )
-        if i==3 and v_criteria[3]==1 and activation_plots[1]==1 and (iteration% activation_plots[2]) == 0: 
-            error_plot(it = iteration, point = calculated_value[3], error_value = v_values[4], 
-                       labelplot = 'Mean error [-]' )
+            elif i == 3:
+                stop_condition[i], calculated_value[i] = mean_error(wsol, v_values[i+1],
+                v_values[i+2])
+                if activation_plots[0] == 1 and v_criteria[3]==1 and activation_plots[2]==1 and (iteration%activation_plots[3]) == 0: 
+                    error_plot(it = iteration, point = calculated_value[3], error_value = v_values[4], plot_type = 1)
 
     not_v_criteria = 1 - v_criteria
+    not_v_AndOr = 1 - v_AndOr
 
     stop = 0
     for i in range(np.size(v_criteria)):
@@ -124,6 +119,7 @@ def stopping_criterion(v_criteria, v_values, v_AndOr,
                 break 
                 
     if stop == 0: 
-        stop = int(np.product(not_v_criteria + v_AndOr*stop_condition) > 0)
+        if np.product(not_v_criteria + not_v_AndOr*not_v_criteria + v_AndOr*stop_condition) > 0: 
+            stop =1
 
     return stop, stop_condition

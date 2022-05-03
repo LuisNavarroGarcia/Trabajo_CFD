@@ -44,7 +44,7 @@ bc = BC(bc_type = bc_type, bc_handler = bc_handler)
 
 init_cond = InitCond(t0 = 0, u = u)
 
-propagator = euler_explicit
+propagator = euler_implicit
 
 type_storage = 0
 
@@ -63,7 +63,7 @@ v_criteria = np.array([0, 0, 0, 1])
 v_values = np.array([10, 100, 0.007, 2, 0.005, 5])
 v_AndOr = np.array([0, 0, 0, 0])
 
-activation_plots = np.array([0, 0, 5])
+activation_plots = np.array([0, 1, 1, 5])
 
 stop_criteria = lambda wsol, t, iteration : stopping_criterion(
     v_criteria, v_values, v_AndOr, activation_plots, wsol, t, iteration
@@ -101,4 +101,6 @@ simulation_time = end - start
 
 print(f'The simulation time has been: {simulation_time}')
 
-contour_plot(w = w[:, -1], mesh = mesh, num_map = 2)
+num_map_cont = 2 # Inferno theme for contout plot
+num_interp_cont = 2 #Cubic interpolation method
+contour_plot(w = w[:, -1], mesh = mesh, num_map = num_map_cont, num_interp = num_interp_cont)

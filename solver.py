@@ -21,7 +21,6 @@ def solver(w0, t0, sim_config, problem, propagator, dt, stop_criteria):
   
         tsol = np.append(tsol, t)
         iteration += 1
-        
         try:
             updated_dt = dt.calc(wsol, updated_dt, dt)
         except Exception:
