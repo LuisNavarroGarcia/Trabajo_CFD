@@ -26,7 +26,7 @@ cv = 717.5  # Specific Heat [J/(kg·K)]
 rho = 1.225 # Density [kg/m^3]
 
 fluid_prop = FluidProp(k = k, cv = cv, rho = rho)
-    
+
 u = lambda x, y, t: np.full((len(x), 2), np.array([0., 0.075]))
 
 num_cells = 4
@@ -62,7 +62,7 @@ v_criteria = np.array([0, 0, 0, 1])
 v_values = np.array([10, 100, 0.007, 2, 0.005, 5])
 v_AndOr = np.array([0, 0, 0, 0])
 
-activation_plots = np.array([1, 1, 1, 5])
+activation_plots = np.array([0, 1, 1, 5])
 
 stop_criteria = lambda wsol, t, iteration : stopping_criterion(
     v_criteria, v_values, v_AndOr, activation_plots, wsol, t, iteration

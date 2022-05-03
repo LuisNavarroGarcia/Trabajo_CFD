@@ -1,9 +1,6 @@
-from fileinput import filename
-from turtle import right
 import numpy as np
 
 class Mesh():
-
     def __init__(self, num_cells, num_bc):
         
         #load cell data
