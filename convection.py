@@ -11,7 +11,7 @@ def conv_upwind_order1(mesh = None, fluid_prop = None, bc = None, u = None, w = 
 
     for i in range(N):
         V_i = mesh.V[i] # volumen celda i
-        Centroids = [mesh.Rc[i, 0], mesh.Rc[i, 1]] # Matriz 1x2 con las ...
+        Centroids = np.array([mesh.Rc[i, 0], mesh.Rc[i, 1]]) # Matriz 1x2 con las ...
         #coordenadas del centroide de la celda #se sobrescribe cada vez
         v = u([Centroids[0]], [Centroids[1]], t) #campo de velocidad dependiente del centroide y el tiempo
         for j in range(3):

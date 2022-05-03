@@ -56,7 +56,7 @@ spatial_discret = lambda mesh, fluid_prop, diffusion_integrator, convection_inte
 diffusion_integrator = difusion_cds_weighted
 convection_integrator = conv_upwind_order1
 
-dt_calc = dt_constant
+dt_calc = dt_adaptative
 dt0 = 0.01
 
 v_criteria = np.array([0, 0, 0, 1])

@@ -13,12 +13,12 @@ def solver(w0, t0, sim_config, problem, propagator, dt, stop_criteria):
 
     while not stop:
         w = propagator(w, t, updated_dt, problem)
-        t = t + updated_dt
+        t += updated_dt
 
         wsol = np.append(wsol, w, axis = 1)
 
-        stop, criteria = stop_criteria(wsol, tsol[-1], iteration)
-
+        stop, criteria = stop_criteria(wsol, t, iteration)
+  
         tsol = np.append(tsol, t)
         iteration += 1
         
