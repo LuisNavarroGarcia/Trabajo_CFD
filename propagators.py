@@ -44,7 +44,7 @@ def crank_nicolson(w, t, dt, problem):
 
     return w_new
 
-def runge_kutta(w, t, dt, problem):
+def runge_kutta4(w, t, dt, problem):
 
     # At t
     dw_dt, _, _, _, _ = problem(w, t) # Returns the first output of problem()
