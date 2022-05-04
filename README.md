@@ -11,10 +11,11 @@ Escrito por:
 Se recomienda crear un entorno virtual, con Anaconda o cualquier otro método para mantener las dependencias aisladas.
 El código utiliza Python 3.10.4, pero debería funcionar en versiones cercanas.
 
-Para instalar el código, clonar el repositorio:
+Para instalar el código, clonar el repositorio: 
 ```bash
 git clone https://github.com/LuisNavarroGarcia/Trabajo_CFD.git
 ```
+O, si no se desea clonar el repositorio, descargar el *.zip* de Github: https://github.com/LuisNavarroGarcia/Trabajo_CFD/archive/refs/heads/master.zip y escomprimirlo en la carpeta que se desee.
 
 Después es necesario acceder a la carpeta mediante:
 ```bash
@@ -38,7 +39,7 @@ python launcher.py
 
 El archivo *default_config.txt* se puede duplicar para crear distintos archivos de configuración. Como los archivos customizados se guardarán con otros nombres, si se desea utilizar un archivo de configuración customizado, se puede hacer con el comando:
 ```bash
-python launcher.py --config_file [*nombre del archivo con la extensión*]
+python launcher.py --config_file [nombre del archivo con la extensión]
 ```
 
 Ejemplo:
