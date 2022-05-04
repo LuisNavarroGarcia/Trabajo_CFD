@@ -15,6 +15,7 @@ from sim_config import SimConfig
 from boundary_conditions import BC
 import argparse
 from plots import contour_plot
+from plots import ErrorPlot
 
 # parser = argparse.ArgumentParser(description = None)
 # parser.add_argument('--num_cells', type = int, required = True, help = '')
@@ -58,14 +59,15 @@ convection_integrator = conv_cds
 dt_calc = dt_constant
 dt0 = 0.01
 
-v_criteria = np.array([0, 0, 0, 1])
+v_criteria = np.array([0, 1, 1, 1])
 v_values = np.array([10, 100, 0.007, 2, 0.005, 5])
 v_AndOr = np.array([0, 0, 0, 0])
 
-activation_plots = np.array([0, 1, 1, 5])
+activation_plots = np.array([0, 0, 1, 5])
 
+error_plot = ErrorPlot()
 stop_criteria = lambda wsol, t, iteration : stopping_criterion(
-    v_criteria, v_values, v_AndOr, activation_plots, wsol, t, iteration
+    v_criteria, v_values, v_AndOr, activation_plots, wsol, t, iteration, error_plot
 )
 
 sim_config = SimConfig(courant = 10, t_final = v_values[0])

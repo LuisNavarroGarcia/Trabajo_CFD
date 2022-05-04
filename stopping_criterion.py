@@ -1,9 +1,9 @@
 import numpy as np
 from stop_conditions import time_step, max_error, max_iterations, mean_error
-from plots import ErrorPlot
+
 
 def stopping_criterion(v_criteria, v_values, v_AndOr, 
-                      activation_plots, wsol, t, iteration):
+                      activation_plots, wsol, t, iteration, error_plot):
 
     """function stopping_criterion : Determines if the problem has 
             coverged. It takes into account the convergence ccriterion desired 
@@ -83,10 +83,6 @@ def stopping_criterion(v_criteria, v_values, v_AndOr,
 
     stop_condition = np.zeros(4)
     calculated_value = np.zeros(4)
-    # print(stop_condition)
-    # print(calculated_value)
-
-    error_plot = ErrorPlot()
 
     for i in range(np.size(v_criteria)):
         if v_criteria[i] == 1:
@@ -98,16 +94,14 @@ def stopping_criterion(v_criteria, v_values, v_AndOr,
                 stop_condition[i], calculated_value[i] = max_iterations(iteration, v_values[i])
         
             elif i == 2: 
-                stop_condition[i], calculated_value[i] = max_error(wsol, v_values[i],
-                v_values[i+1])
+                stop_condition[i], calculated_value[i] = max_error(wsol, v_values[i], v_values[i+1])
                 if activation_plots[0] == 1 and v_criteria[2]==1 and activation_plots[1]==1 and (iteration%activation_plots[3]) == 0:
-                    error_plot(it = iteration, point = calculated_value[2], error_value = v_values[2], plot_type = 0)
+                    error_plot(it = iteration, point = calculated_value[2], error_value = v_values[2], plot_type = 0, act_plot = activation_plots)
 
             elif i == 3:
-                stop_condition[i], calculated_value[i] = mean_error(wsol, v_values[i+1],
-                v_values[i+2])
+                stop_condition[i], calculated_value[i] = mean_error(wsol, v_values[i+1], v_values[i+2])
                 if activation_plots[0] == 1 and v_criteria[3]==1 and activation_plots[2]==1 and (iteration%activation_plots[3]) == 0: 
-                    error_plot(it = iteration, point = calculated_value[3], error_value = v_values[4], plot_type = 1)
+                    error_plot(it = iteration, point = calculated_value[3], error_value = v_values[4], plot_type = 1, act_plot = activation_plots)
 
     not_v_criteria = 1 - v_criteria
     not_v_AndOr = 1 - v_AndOr
@@ -123,3 +117,4 @@ def stopping_criterion(v_criteria, v_values, v_AndOr,
             stop =1
 
     return stop, stop_condition
+
