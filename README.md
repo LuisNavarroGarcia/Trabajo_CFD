@@ -3,7 +3,8 @@
 
 Escrito por:
 - Elfidio Ángel Alonso Artal 
-- Jorge Fernández Chinchón 
+- Jorge Fernández Chinchón
+- Carlos González Pérez
 - Diego Jordá Espí
 - Luis Navarro García
 
