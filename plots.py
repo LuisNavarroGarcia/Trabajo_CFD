@@ -64,7 +64,7 @@ class ErrorPlot():
 
 
 
-def contour_plot(w, mesh, num_map, num_interp):
+def contour_plot(w, mesh, colourmap, interp_method):
     """
     function contour_plot : plots the solution in a contour plot 
     The solution is interpolated in the nodes of the mesh. 
@@ -144,12 +144,8 @@ def contour_plot(w, mesh, num_map, num_interp):
     X, Y = np.meshgrid(xv, yv)
     
     #Selection of the interpolation method
-    interp_method = ['nearest', 'linear', 'cubic'] 
     
-    Z = griddata((x_nodes, y_nodes), np.transpose(rec), (X, Y), method = interp_method[num_interp])
-    
-    #Selection of the colour map type
-    colourmap = ['binary','viridis', 'inferno', 'plasma', 'magma', 'cividis']
+    Z = griddata((x_nodes, y_nodes), np.transpose(rec), (X, Y), method = interp_method)
     
     #Selection of the lettering 
     plt.rcParams.update({'font.family':'fantasy'})
@@ -159,7 +155,7 @@ def contour_plot(w, mesh, num_map, num_interp):
     plt.rcdefaults()
     fig,ax=plt.subplots(1, 1, figsize=(asp_ratio*5*20, 5))
 
-    cp = ax.contourf(X, Y, Z, levels_contour, cmap=colourmap[num_map])
+    cp = ax.contourf(X, Y, Z, levels_contour, cmap=colourmap)
     fig.colorbar(cp) # Add a colorbar to a plot
     ax.set_title('Temperature Contour Plot')
     ax.set_xlabel('x (mm)')
