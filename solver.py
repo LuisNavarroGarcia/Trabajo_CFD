@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def solver(w0, t0, sim_config, problem, propagator, dt, stop_criteria):
+def solver(w0, t0, sim_config, problem, propagator, dt, stop_criteria, activation_plots):
     iteration = 0
     w = w0
     wsol = w0
@@ -20,7 +20,7 @@ def solver(w0, t0, sim_config, problem, propagator, dt, stop_criteria):
 
         stop, criteria = stop_criteria(wsol, t, iteration)
 
-        if stop: 
+        if stop and activation_plots[0] == 1: 
             plt.ioff()
   
         tsol = np.append(tsol, t)

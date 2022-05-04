@@ -65,7 +65,11 @@ v_AndOr = np.array([0, 0, 0, 0])
 
 activation_plots = np.array([0, 0, 1, 5])
 
-error_plot = ErrorPlot()
+if activation_plots[0] == 1:
+    error_plot = ErrorPlot()
+else:
+    error_plot = None
+
 stop_criteria = lambda wsol, t, iteration : stopping_criterion(
     v_criteria, v_values, v_AndOr, activation_plots, wsol, t, iteration, error_plot
 )
@@ -93,7 +97,8 @@ start = time.time()
 
 w, t, criteria = solver(
     w0 = w0, t0 = init_cond.t0, sim_config = sim_config, problem = problem,
-    propagator = propagator, dt = dt, stop_criteria = stop_criteria 
+    propagator = propagator, dt = dt, stop_criteria = stop_criteria,
+    activation_plots = activation_plots
 )
 
 end = time.time()
