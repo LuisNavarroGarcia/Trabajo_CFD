@@ -4,15 +4,15 @@ class Mesh():
     def __init__(self, num_cells, num_bc):
         
         #load cell data
-        self.cells = np.loadtxt(f'cells_{num_cells}.dat', dtype= np.int32)
+        self.cells = np.loadtxt(f'mesh/cells_{num_cells}.dat', dtype= np.int32)
         # load node data
-        self.Rn = np.loadtxt(f'nodes_{num_cells}.dat')
+        self.Rn = np.loadtxt(f'mesh/nodes_{num_cells}.dat')
         # load boundary conditions
 
         self.bc = []
         for i in range(num_bc):
             try:
-                self.bc.append(np.loadtxt(f'bc_{i+1}_{num_cells}.dat', dtype= np.int32))
+                self.bc.append(np.loadtxt(f'mesh/bc_{i+1}_{num_cells}.dat', dtype= np.int32))
             except Exception:
                 print(f'Only found: {i} boundaries')
 
