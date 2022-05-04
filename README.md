@@ -52,69 +52,69 @@ Donde *custom_config.txt* es el archivo de configuración creado por el usuario.
 A consinuación se muestra el archivo *default_config.txt*, con la configuración por defecto:
 
     [fluid properties]
-    k = **0.024**
-    cv = **718.5**
-    rho = **1.225**
+    k = 0.024
+    cv = 718.5
+    rho = 1.225
     
     [mesh]
-    num_cells = **4**
-    num_bc = **4**
+    num_cells = 4
+    num_bc = 4
     
     [type boundary conditions]
-    boundary_1 = **neumann**
-    boundary_2 = **neumann**
-    boundary_3 = **neumann**
-    boundary_4 = **neumann**
+    boundary_1 = neumann
+    boundary_2 = neumann
+    boundary_3 = neumann
+    boundary_4 = neumann
     
     [value boundary conditions]
-    boundary_1 = lambda x, y, t : **293**
-    boundary_2 = lambda x, y, t : **700**
-    boundary_3 = lambda x, y, t : **1100**
-    boundary_4 = lambda x, y, t : **450**
+    boundary_1 = lambda x, y, t : 293
+    boundary_2 = lambda x, y, t : 700
+    boundary_3 = lambda x, y, t : 1100
+    boundary_4 = lambda x, y, t : 450
     
     [initial conditions]
-    u = lambda x, y, t: np.full((len(x), 2), np.array([**0.**, **0.006**]))
-    t0 = **0**
+    u = lambda x, y, t: np.full((len(x), 2), np.array([0., 0.006]))
+    t0 = 0
     
     [propagators]
-    propagator = **euler_implicit**
+    propagator = euler_implicit
     
     [integrators]
-    diffusion_integrator = **difusion_cds_weighted**
-    convection_integrator = **conv_upwind_order1**
+    diffusion_integrator = difusion_cds_weighted
+    convection_integrator = conv_upwind_order1
     
     [time configuration]
-    dt_calc = **dt_constant**
-    dt0 = **0.01**
-    courant = **10**
+    dt_calc = dt_constant
+    dt0 = 0.01
+    courant = 10
     
     [stopping criteria]
-    stop_at_time_flag = **0**
-    stop_at_iteration_flag = **0**
-    stop_at_max_error_flag = **1**
-    stop_at_mean_error_flag = **1**
+    stop_at_time_flag = 0
+    stop_at_iteration_flag = 0
+    stop_at_max_error_flag = 1
+    stop_at_mean_error_flag = 1
     
-    stop_at_time = **10**
-    stop_at_iteration = **1000**
-    stop_at_max_error = **0.007**
-    evaluate_max_error_at_n_last_iterations = **2**
-    stop_at_mean_error = **0.005**
-    evaluate_mean_error_at_n_last_iterations = **2**
+    stop_at_time = 10
+    stop_at_iteration = 1000
+    stop_at_max_error = 0.007
+    evaluate_max_error_at_n_last_iterations = 2
+    stop_at_mean_error = 0.005
+    evaluate_mean_error_at_n_last_iterations = 2
     
-    OR_AND_condition_for_time_condition = **0**
-    OR_AND_condition_for_iteration_condition = **0**
-    OR_AND_condition_for_max_error_condition = **0**
-    OR_AND_condition_for_mean_error_condition = **0**
+    OR_AND_condition_for_time_condition = 0
+    OR_AND_condition_for_iteration_condition = 0
+    OR_AND_condition_for_max_error_condition = 0
+    OR_AND_condition_for_mean_error_condition = 0
     
     
     [plot configuration]
-    active_convergence_plot = **1**
-    plot_max_error = **1**
-    plot_mean_error = **1**
-    plot_frecuency = **5**
+    active_convergence_plot = 1
+    plot_max_error = 1
+    plot_mean_error = 1
+    plot_frecuency = 5
     
-    contour_colormap = **inferno**
-    contour_interpolation_method = **cubic**
+    contour_colormap = inferno
+    contour_interpolation_method = cubic
 
 En [fluid properties] se introducen:
 - **k**: Conductividad térmica *[W/(m·K)]*
