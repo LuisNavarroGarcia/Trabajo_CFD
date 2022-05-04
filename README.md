@@ -8,14 +8,14 @@ Escrito por:
 - Luis Navarro García
 
 ## Instalación
-Se recomienda crear un entorno virtual, con Anaconda o cualquier otro método para mantener las dependencias aisladas.
+Se recomienda crear un entorno virtual, con Anaconda o cualquier otro método, para mantener las dependencias aisladas.
 El código utiliza Python 3.10.4, pero debería funcionar en versiones cercanas.
 
 Para instalar el código, clonar el repositorio: 
 ```bash
 git clone https://github.com/LuisNavarroGarcia/Trabajo_CFD.git
 ```
-O, si no se desea clonar el repositorio, descargar el *.zip* de Github: https://github.com/LuisNavarroGarcia/Trabajo_CFD/archive/refs/heads/master.zip y escomprimirlo en la carpeta que se desee.
+O, si no se desea clonar el repositorio, descargar el *.zip* de Github: https://github.com/LuisNavarroGarcia/Trabajo_CFD/archive/refs/heads/master.zip y descomprimirlo en la carpeta que se desee.
 
 Después es necesario acceder a la carpeta mediante:
 ```bash
@@ -134,15 +134,17 @@ En [type of boundary condition] se introduce:
 - **boundary_2**: neumann o dirichlet
 - **boundary_3**: neumann o dirichlet
 - **boundary_4**: neumann o dirichlet
+- **...**
 
 En [value of boundary condition] se introduce:
-- **boundary_1 = lambda x, y, t:** Función dependiente de *x*, *y*, y *t*
-- **boundary_2 = lambda x, y, t:** Función dependiente de *x*, *y*, y *t*
+- **boundary_1 = lambda x, y, t:** Función dependiente de *x*, *y*, *t*
+- **boundary_2 = lambda x, y, t:** Función dependiente de *x*, *y*, *t*
 - **boundary_3 = lambda x, y, t:** Función dependiente de *x*, *y*, y *t*
-- **boundary_4 = lambda x, y, t:** Función dependiente de *x*, *y*, y *t*
+- **boundary_4 = lambda x, y, t:** Función dependiente de *x*, *y*, *t*
+-**...**
 
 En [initial conditions] se introduce:
-- **u = lambda x, y, t: np.full((len(x), 2), np.array([{1}, {2}]))**: Donde {1} magnitud de la velocidad en x, puede depender de *x*, *y*, y *t*. Y {2} magnitud de la velocidad en y, puede depender de *x*, *y*, y *t*.
+- **u = lambda x, y, t: np.full((len(x), 2), np.array([{1}, {2}]))**: Donde {1} magnitud de la velocidad en x, puede depender de *x*, *y*, y *t*. Y {2} magnitud de la velocidad en y, puede depender de *x*, *y*, *t*.
 - **t0** : Tiempo inicial
 
 En [propagators] se introduce:
@@ -166,7 +168,7 @@ En [stopping criteria] se introduce:
 - **stop_at_iteration**: Iteración para parar *solver*
 - **stop_at_max_error**: Error máximo para parar *solver*
 - **evaluate_max_error_at_n_last_iterations**: Celdas donde se evalúa el error máximo (comenzando desde atrás).
-- **stop_at_mean_error**: Iteración para parar *solver*
+- **stop_at_mean_error**: Error medio para parar *solver*
 - **evaluate_mean_error_at_n_last_iterations**: Celdas donde se evalúa el error medio (comenzando desde atrás).
 - 
 Las siguientes *flags* indican si la condición que indica su nombre actúa un **OR** o un **AND**. Si es todo 0, el primer criterio que converja parará el *solver*, cuando alguna es 1, esa condición se tendrá que cumplir sí o sí.
@@ -181,5 +183,5 @@ En [plot configuration] se introduce:
 - **plot_max_error**: 1 si se plotea el error máximo, 0 si no.
 - **plot_mean_error**: 1 si se plotea el error medio, 0 si no.
 - **plot_frecuency**: Cada cuántas iteraciones se grafica la gráfica anteriormente mencionada.
-- **contour_colormap**: Mapa de color para la gráfica de contornos. Puede ser *inferno*, *binary*, *viridis*, *plasma*, *magma* y *cviridis*.
+- **contour_colormap**: Mapa de color para la gráfica de contornos. Puede ser *inferno*, *binary*, *viridis*, *plasma*, *magma* y *cividis*.
 - **contour_interpolation_method**: Tipo de interpolación para gráfica de contorno. Puede ser: *cubic*, *nearest* y *linear*.
