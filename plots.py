@@ -160,4 +160,5 @@ def contour_plot(w, mesh, colourmap, interp_method):
     ax.set_title('Temperature Contour Plot')
     ax.set_xlabel('x (mm)')
     ax.set_ylabel('y (mm)')
+    fig.tight_layout()
     plt.show()
