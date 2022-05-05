@@ -2,7 +2,7 @@ import numpy as np
 from energy_conservation import energy_conservation
 from fluid_prop import FluidProp
 from initial_conditions import InitCond
-from propagators import euler_explicit, euler_implicit, euler_pred_corr, runge_kutta, crank_nicolson
+from propagators import euler_explicit, euler_implicit, euler_pred_corr, runge_kutta4, crank_nicolson
 from spatial_discretization import spatial_discretization
 from convection import conv_upwind_order1, conv_cds
 from diffusion import difusion_cds, difusion_cds_weighted
@@ -18,7 +18,7 @@ from plots import ErrorPlot
 import argparse
 import configparser
 
-parser = argparse.ArgumentParser(description = None)
+parser = argparse.ArgumentParser(description = 'Launch calculations given a configuration file for the energy equation solver')
 parser.add_argument('--config_file', type = str, default = 'config_default.txt',
     help = 'Specify configuration file to run the simulation (.txt extension)')
 args = parser.parse_args()
