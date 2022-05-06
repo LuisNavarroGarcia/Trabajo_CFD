@@ -145,7 +145,7 @@ def max_error(temperatures, error_max_limit,
         max_error_matrix = temperatures[:, (b - int(num_iterations)):b]
         maximum_terms = np.max(max_error_matrix, axis=1)
         minimum_terms = np.min(max_error_matrix, axis=1)
-        error_max = np.mean(np.abs(maximum_terms - minimum_terms)/np.abs(minimum_terms))
+        error_max = np.max(np.abs(maximum_terms - minimum_terms)/np.abs(minimum_terms))
 
     if error_max <= error_max_limit:
         stop = 1 #Stop calculation is maximum error is low enougth
