@@ -101,22 +101,9 @@ def mean_error(temperatures, error_mean_limit,
 
         if error_mean <= error_mean_limit:
             stop = 1 #Stop calculation is mean error is low enougth
-            # print(stop)
+
         else:
             stop = 0 #Continue if mean error is still large
-            # print(stop)
-
-    # print("mean_matrix:")
-    # print(mean_matrix)
-
-    # print("maximum_terms:")
-    # print(maximum_terms)
-
-    # print("minimum_terms:")
-    # print(minimum_terms)
-
-    # print("error_mean:")
-    # print(error_mean)
 
     return stop, error_mean
 
@@ -162,21 +149,8 @@ def max_error(temperatures, error_max_limit,
 
     if error_max <= error_max_limit:
         stop = 1 #Stop calculation is maximum error is low enougth
-        # print(stop)
+
     else:
         stop = 0 #Continue if maximum error is still large
-        # print(stop)
-
-    # print("max_error_matrix:")
-    # print(max_error_matrix)
-
-    # print("maximum_terms:")
-    # print(maximum_terms)
-
-    # print("minimum_terms:")
-    # print(minimum_terms)
-
-    # print("error_max:")
-    # print(error_max)
 
     return stop, error_max
