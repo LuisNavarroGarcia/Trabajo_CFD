@@ -10,7 +10,7 @@ Escrito por:
 
 ## Instalación
 Se recomienda crear un entorno virtual, con Anaconda o cualquier otro método, para mantener las dependencias aisladas.
-El código utiliza Python 3.10.4, pero debería funcionar en versiones cercanas.
+El código utiliza **Python 3.10.4**, pero debería funcionar en versiones cercanas.
 
 Para instalar el código, clonar el repositorio: 
 ```bash
