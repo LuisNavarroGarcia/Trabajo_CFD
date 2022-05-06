@@ -140,12 +140,12 @@ En [type of boundary condition] se introduce:
 En [value of boundary condition] se introduce:
 - **boundary_1 = lambda x, y, t:** Función dependiente de *x*, *y*, *t*
 - **boundary_2 = lambda x, y, t:** Función dependiente de *x*, *y*, *t*
-- **boundary_3 = lambda x, y, t:** Función dependiente de *x*, *y*, y *t*
+- **boundary_3 = lambda x, y, t:** Función dependiente de *x*, *y*, *t*
 - **boundary_4 = lambda x, y, t:** Función dependiente de *x*, *y*, *t*
--**...**
+- **...**
 
 En [initial conditions] se introduce:
-- **u = lambda x, y, t: np.full((len(x), 2), np.array([{1}, {2}]))**: Donde {1} magnitud de la velocidad en x, puede depender de *x*, *y*, y *t*. Y {2} magnitud de la velocidad en y, puede depender de *x*, *y*, *t*.
+- **u = lambda x, y, t: np.full((len(x), 2), np.array([{1}, {2}]))**: Donde {1} magnitud de la velocidad en x, puede depender de *x*, *y*, *t*. Y {2} magnitud de la velocidad en y, puede depender de *x*, *y*, *t*.
 - **t0** : Tiempo inicial
 
 En [propagators] se introduce:
