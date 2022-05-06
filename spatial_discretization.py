@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.sparse import csr_matrix
 
 
 def spatial_discretization(mesh = None, fluid_prop = None, bc = None, u = None, w = None,
