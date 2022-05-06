@@ -2,27 +2,28 @@ import numpy as np
 
 def time_step(time, time_max):
     
-    """stop_condition_tphysical : it determines if the function
-    has converged, only in case it has reached the physical 
-    maximum time
-    
+    """time_step : function to define if the simmulation 
+    has converged, but only in case it has 
+    reached the maximum time specified.
     
     PARAMETERS
     ----------
 
     time : last moment in which the calculation has been carried out
 
-    time_max : maximum physical time 
+    time_max : maximum time over which the simmulation cannot continue. 
+    It has to be specified by the user if this converging 
+    criteria is active.  
 
-    RETURNS 
+    OUTPUTS 
     -------
 
-    stop : indicates wheter the calculation must stop or continue
+    stop : indicates wheter the calculation must stop or continue.
             Returns 0 if the caltulation must continue
             Returns 1 if the calculation must stop
 
-    time : Returns the same variable as the input
-        """
+    time : Returns the simmulation time. It is the same value as the input. 
+    """
     stop = 0
     if time >= time_max:
         stop = 1
@@ -31,28 +32,30 @@ def time_step(time, time_max):
 
 def max_iterations(iteration_number, iteration_max):
     
-    """stop_condition_iterations : it determines if the function
-    has converged, only in case it has reached the number of iterations
-    IMPOSED
-    
+    """max_iterations : time_step : function to define if the simmulation 
+    has converged, but only in case it has 
+    reached the maximum time specified.
     
     PARAMETERS
     ----------
 
     iteration_number : last iteration in which the calculation has been 
-        carried out
+        carried out.
 
-    iteration_max : number of maximum iterations DETERMIENED BY THE USER 
+    iteration_max : maximum number of iterations over which the 
+    simmulation cannot continue. It has to be specified by the user
+    if this converging criteria is active.  
 
-    RETURNS 
+    OUTPUTS 
     -------
 
-    stop : indicates wheter the calculation must stop or continue
-            Returns 0 if the caltulation must continue
-            Returns 1 if the calculation must stop
+    stop : indicates wheter the calculation must stop or continue.
+            Returns 0 if the caltulation must continue.
+            Returns 1 if the calculation must stop.
 
-    iteration_number : Returns the same variable as the input
-        """
+    iteration_number :Returns the simmulation time. It is the same 
+    value as the input. 
+    """
     stop = 0
     if iteration_number >= iteration_max:
         stop = 1
@@ -62,22 +65,25 @@ def max_iterations(iteration_number, iteration_max):
 def mean_error(temperatures, error_mean_limit,
                              num_iterations):
     
-    """stop_condition_error_mean : it determines if the function
-    has converged,using the criterion of the mean error allowed in 
-    the last iterations specified
+    """
+    mean_error : function to define if the simmulation 
+    has converged, but only using the criterion of the mean error 
+    allowed in the last iterations specified.
     
     PARAMETERS
     ----------
     
-    temperatures : solution matrix of the problem
+    temperatures : solution matrix of the problem, containig in each column 
+    the state vector correspongding to each iteration. 
     
-    error_mean_limit : mean error allowed in the last ierations 
+    error_mean_limit : mean error allowed in the last ierations. 
+    It has to be specified by the user if the criteria is active.  
     
-    num_iterations : number of iterations where the maximum error 
-                        is evaluated. SPECIFIED BY THE USER
+    num_iterations : number of iterations where the maximum error is evaluated. 
+    It has to be specified by the user if the criteria is active.  
     
     
-    RETURNS 
+    OUTPUTS 
     -------
     
     stop : indicates wheter the calculation must stop or continue
@@ -85,6 +91,8 @@ def mean_error(temperatures, error_mean_limit,
             Returns 1 if the calculation must stop
             
     error_mean : mean error of the calculations in the last iterations
+    specified by the user
+
     """
     
     b = np.shape(temperatures)[1]
@@ -110,22 +118,25 @@ def mean_error(temperatures, error_mean_limit,
 def max_error(temperatures, error_max_limit,
                              num_iterations):
     
-    """stop_condition_error_max : it determines if the function
-    has converged,using the criterion of the maximum error allowed in 
-    the last iterations specified
+    """
+    max_error : function to define if the simmulation 
+    has converged, but only using the criterion of the maximum error 
+    allowed in the last iterations specified.
     
     PARAMETERS
     ----------
     
-    temperatures : solution matrix of the problem
+    temperatures : solution matrix of the problem, containig in each column 
+    the state vector correspongding to each iteration. 
     
-    error_max_limit : maximum error allowed in the last ierations 
+    error_max_limit : maximum error allowed in the last ierations. 
+    It has to be specified by the user if the criteria is active.  
     
-    num_iterations : number of iterations where the maximum error 
-                        is evaluated. SPECIFIED BY THE USER
+    num_iterations : number of iterations where the mean error is evaluated. 
+    It has to be specified by the user if the criteria is active.
     
     
-    RETURNS 
+    OUTPUTS 
     -------
     
     stop : indicates wheter the calculation must stop or continue
@@ -133,8 +144,8 @@ def max_error(temperatures, error_max_limit,
             Returns 1 if the calculation must stop
             
     error_max : maximum error of the calculations in the last iterations
+    specified by the user
     """
-    import numpy as np
 
     b = np.shape(temperatures)[1]
 

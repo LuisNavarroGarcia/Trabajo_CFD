@@ -1,3 +1,26 @@
+'''
+MSc in Aeronautical Engineering
+
+Subject:  Mecánica de Fluidos Computacional y Experimental
+
+Authors:
+    - Elfidio Ángel Alonso Artal 
+    - Jorge Fernández Chinchón
+    - Carlos González Pérez
+    - Diego Jordá Espí
+    - Luis Navarro García
+
+6th May 2022
+
+This file serves as a way to initialize calculations with the software.
+All the required functions and classes are imported to this file for execution.
+
+The launcher can run without needing any edits as it is passed a config file
+in INI format, meaning there's no need to access the code.
+
+'''
+
+
 import numpy as np
 from energy_conservation import energy_conservation
 from fluid_prop import FluidProp

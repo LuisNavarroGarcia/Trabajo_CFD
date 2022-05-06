@@ -3,6 +3,45 @@ from boundary_conditions import neumann_diffusion, dirichlet_diffusion
 
 def difusion_cds(mesh = None, fluid_prop = None, bc = None, u = None, w = None, t = None):
 
+     """
+    function difusion_cds : This function calculates the difusion matrix of the problem using Central Differencing Scheme (CDS). 
+    In this method, the temperature of a face is calculated as the mean between the tempeartures of the adjoining cells.
+    
+    PARAMETERS
+    ----------
+    bc_type : vector that constains the type of boundary condition for each frontier.
+    bc_handler : vector of values at each boundary 'n'.
+    
+    BC : NxN matrix with convection terms associated to boundary conditions
+    
+    bc : Nx1 vector with convection terms associated to boundary conditions
+    cond : difusion term for cell 'i' and face/point j
+    i : index of cell where calculation is performed
+    j : index of the point where calculation is performed
+    x : position in x axis [m]
+    y : position in y axis [m]
+    t : time [s]
+    mesh : class with all the mesh properties:
+        - Rn : coordinates of nodes forming the mesh
+        - Cells : index of nodes forming each cell
+        - Volumes : area (2D mesh) of each cell
+        - Neighbours : neighboring cells for each cell and/or boundaries
+        - Normals : external normal vector for each face of each cell
+        - Areas : length of each face of each cell
+        - Faces : coordinates of the center of each face for each cell
+        
+    fluid_prop : class containing the properties of the fluid.
+        - k : thermal conductivity [W/m*K]
+        - rho : density [kg/m^3]
+        - cv : specific heat [J/kg*K]
+        
+    OUTPUT
+    ----------
+    C_matrix: N x N matrix, difusion matrix where each row corresponds to a cell.
+    BC_i : N x N matrix, matrix associated to the difusion matrix of the boundary conditions
+    bc_i : N x 1 matrix, Nx1 matrix with independent terms
+    """
+
      num_cells = len(mesh.cells)
      K = np.zeros((num_cells, num_cells))
      BC = np.zeros((num_cells, num_cells))
@@ -58,6 +97,46 @@ def difusion_cds(mesh = None, fluid_prop = None, bc = None, u = None, w = None, 
      return K, BC, bc_vec
 
 def difusion_cds_weighted(mesh = None, fluid_prop = None, bc = None, u = None, w = None, t = None):
+
+     """
+    function difusion_cds_weighted : This function calculates the difusion matrix of the problem.
+    The temperature of the cell varies linearly between the centroid of the cell and another, 
+    but also depends on the relative distance to the face.
+    
+    PARAMETERS
+    ----------
+    bc_type : vector that constains the type of boundary condition for each frontier.
+    bc_handler : vector of values at each boundary 'n'.
+    
+    BC : NxN matrix with convection terms associated to boundary conditions
+    
+    bc : Nx1 vector with convection terms associated to boundary conditions
+    cond : difusion term for cell 'i' and face/point j
+    i : index of cell where calculation is performed
+    j : index of the point where calculation is performed
+    x : position in x axis [m]
+    y : position in y axis [m]
+    t : time [s]
+    mesh : class with all the mesh properties:
+        - Rn : coordinates of nodes forming the mesh
+        - Cells : index of nodes forming each cell
+        - Volumes : area (2D mesh) of each cell
+        - Neighbours : neighboring cells for each cell and/or boundaries
+        - Normals : external normal vector for each face of each cell
+        - Areas : length of each face of each cell
+        - Faces : coordinates of the center of each face for each cell
+        
+    fluid_prop : class containing the properties of the fluid.
+        - k : thermal conductivity [W/m*K]
+        - rho : density [kg/m^3]
+        - cv : specific heat [J/kg*K]
+        
+    OUTPUT
+    ----------
+    C_matrix: N x N matrix, difusion matrix where each row corresponds to a cell.
+    BC_i : N x N matrix, matrix associated to the difusion matrix of the boundary conditions
+    bc_i : N x 1 matrix, Nx1 matrix with independent terms
+    """
 
      num_cells = len(mesh.cells)
      K = np.zeros((num_cells, num_cells))

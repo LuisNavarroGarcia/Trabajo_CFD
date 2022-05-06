@@ -2,6 +2,23 @@ import numpy as np
 
 def euler_explicit(w, t, dt, problem):
 
+    """
+    function euler_explicit : function that integrates a time step with Euler explicit
+    method.
+    
+    PARAMETERS
+    ----------
+    x : position in x axis [m]
+    y : position in y axis [m]
+    t : time [s]
+    dt: time step [s]
+    w: state vector [T]
+    problem: handler of the energy conservation function dependent on w and t
+        
+    OUTPUT
+    ----------
+    w_new: state vector evaluated at t+dt. Nx1 vector
+    """
     dw_dt, _, _, _, _ = problem(w, t) # Returns the first output of problem()
     
     w_new = np.dot(dw_dt, dt) + w
@@ -10,6 +27,23 @@ def euler_explicit(w, t, dt, problem):
 
 def euler_implicit(w, t, dt, problem):
 
+    """
+    function euler_implicit : function that integrates a time step with Euler implicit
+    method.
+    
+    PARAMETERS
+    ----------
+    x : position in x axis [m]
+    y : position in y axis [m]
+    t : time [s]
+    dt: time step [s]
+    w: state vector [T]
+    problem: handler of the energy conservation function dependent on w and t
+        
+    OUTPUT
+    ----------
+    w_new: state vector evaluated at t+dt. Nx1 vector
+    """
     dw_dt, A, _, _, _ = problem(w, t) # Returns the first and second outputs of problem()
     
     # Solves the linear system of equations
@@ -20,6 +54,23 @@ def euler_implicit(w, t, dt, problem):
 
 def euler_pred_corr(w, t, dt, problem):
 
+    """
+    function euler_pred_corr : function that integrates time step with Second order Corrector Predictor
+    method. With it, first is calculated a prediction with euler explicit and corrected with euler implicit
+    
+    PARAMETERS
+    ----------
+    x : position in x axis [m]
+    y : position in y axis [m]
+    t : time [s]
+    dt: time step [s]
+    w: state vector [T]
+    problem: handler of the energy conservation function dependent on w and t
+        
+    OUTPUT
+    ----------
+    w_new: state vector evaluated at t+dt. Nx1 vector
+    """
     # Actual instant n
     dw_dt, _, _, _, _ = problem(w, t) # Returns the first output of problem()
     
@@ -36,6 +87,22 @@ def euler_pred_corr(w, t, dt, problem):
 
 def crank_nicolson(w, t, dt, problem):
 
+    """
+    function euler_pred_corr : function that integrates time step with Crank Nicolson method.
+        
+    PARAMETERS
+    ----------
+    x : position in x axis [m]
+    y : position in y axis [m]
+    t : time [s]
+    dt: time step [s]
+    w: state vector [T]
+    problem: handler of the energy conservation function dependent on w and t
+        
+    OUTPUT
+    ----------
+    w_new: state vector evaluated at t+dt. Nx1 vector
+    """
     dw_dt, A, _, _, _  = problem(w, t) # Returns the first and second outputs of problem()
 
     # Solves the linear system of equations
@@ -46,6 +113,25 @@ def crank_nicolson(w, t, dt, problem):
 
 def runge_kutta4(w, t, dt, problem):
 
+    """
+    function euler_pred_corr : function that integrates time step with Runge Kutta method. 
+    First a prediction is calculated at t+dt/2 with euler explicit. Then, it is corrected with
+    Euler implicit. After that, a prediction is done with Euler explicit at t+dt and the result is corrected
+    with Simpson's rule.
+        
+    PARAMETERS
+    ----------
+    x : position in x axis [m]
+    y : position in y axis [m]
+    t : time [s]
+    dt: time step [s]
+    w: state vector [T]
+    problem: handler of the energy conservation function dependent on w and t
+        
+    OUTPUT
+    ----------
+    w_new: state vector evaluated at t+dt. Nx1 vector
+    """
     # At t
     dw_dt, _, _, _, _ = problem(w, t) # Returns the first output of problem()
 

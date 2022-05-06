@@ -2,6 +2,22 @@ import numpy as np
 
 class Mesh():
     def __init__(self, num_cells, num_bc):
+
+        """
+        class Mesh : loads, stores, and calculated the properties related
+        to the mesh.
+        
+        PROPERTIES
+        ----------
+        - Rn : coordinates of nodes forming the mesh
+        - Cells : index of nodes forming each cell
+        - Volumes : area (2D mesh) of each cell
+        - Neighbours : neighboring cells for each cell and/or boundaries
+        - Normals : external normal vector for each face of each cell
+        - Areas : length of each face of each cell
+        - Faces : coordinates of the center of each face for each cell
+        
+        """
         
         #load cell data
         self.cells = np.loadtxt(f'mesh/cells_{num_cells}.dat', dtype= np.int32)
@@ -18,6 +34,12 @@ class Mesh():
 
         
     def preprocess(self):
+
+        """
+        method preprocess : calculates all the necessary properties of the mesh given
+        the data loaded at the creating of the class.
+        
+        """
         
         # initialize arrays
         self.V = np.zeros(len(self.cells))

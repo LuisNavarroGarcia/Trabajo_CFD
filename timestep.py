@@ -2,6 +2,35 @@ import numpy as np
 
 def courant(mesh, u, sim_config):
 
+  ''' 
+  function courant : calculated the maximun time step to fulfill
+  the condition of courant stability.
+
+  PARAMETERS
+  ----------
+
+  mesh : class with all the mesh properties:
+      - Rn : coordinates of nodes forming the mesh
+      - Cells : index of nodes forming each cell
+      - Volumes : area (2D mesh) of each cell
+      - Neighbours : neighboring cells for each cell and/or boundaries
+      - Normals : external normal vector for each face of each cell
+      - Areas : length of each face of each cell
+      - Faces : coordinates of the center of each face for each cell
+
+  u : velocity of the flow, as a function of time [s] and position [m]
+
+  sim_config : class that stores several properties
+      - courant : courant constant
+      - tfinal : simulation time [s]
+
+  OUTPUT
+  ----------
+
+  dt_courant : maximum time step given by Courant[s]. 
+  
+  '''
+
   m, n = np.shape(mesh.cells)
   DeltaX_min = 100
     
@@ -35,6 +64,25 @@ def courant(mesh, u, sim_config):
 
 def dt_adaptative(w, d_t, dt):
 
+  ''' 
+  function dt_adaptative : updates the time step for each iteration
+  for a given error.
+
+  PARAMETERS
+  ----------
+
+  w : state vector at a given time
+
+  t : time [s]
+
+  dt : time step [s]
+
+  OUTPUT
+  ----------
+
+  dt_n : adapted time step [s]. 
+  
+  '''
 
   TOL = 0.005
   dt_max = 1
@@ -75,6 +123,20 @@ def dt_constant(dt0):
   return dt
 
 class DT():
+
+  """
+        class DT : stores several properties related to time
+        
+        PROPERTIES
+        ----------
+        - maximum : maximum simulation time
+        - calc : static method to calculate the time step given
+            the state vector and a given time
+        - dt0 : initial time step
+        - courant : courant constant
+        
+        """
+
   def __init__(self, maximum , dt_calc, dt0, courant):
     self.max = maximum
     self.calc = dt_calc

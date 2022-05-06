@@ -5,40 +5,42 @@ from stop_conditions import time_step, max_error, max_iterations, mean_error
 def stopping_criterion(v_criteria, v_values, v_AndOr, 
                       activation_plots, wsol, t, iteration, error_plot):
 
-    """function stopping_criterion : Determines if the problem has 
-            coverged. It takes into account the convergence ccriterion desired 
-            the user
+    """function stopping_criterion : function to detrmine if the summulation 
+            has converged.  It takes into account the convergence ccriterion desired 
+            the user, if the criteria are active. 
+            
 
     PARAMETERS
     ----------
 
-    v_criteria : vector with 4 components
+    v_criteria : vector array with 4 components
         It indicates the converging criteria that are active
         1 indicates active criterion
         0 indicates inactive criterion
-        Component 0: physical time
-        Component 1: number of iterations
-        Component 2: maximum error in the last A iterations, lower 
-        than v_values(i) 
-        Component 3: mean error in the last B iterations, lower 
-        than v_values(i)
+        Component 0: simmulation time
+        Component 1: number of maximum iterations
+        Component 2: maximum error in the last defined iterations, lower 
+        than a certain threshold defined in the vector array v_values 
+        Component 3: mean error in the last defined iterations, lower 
+        than a certain threshold defined in the vector array v_values 
         
 
-    v_values : vector with 6 components 
+    v_values : vector array with 6 components 
         It gathers the most important values of the different 
-        converging criteria, DEFINED BY THE USER
-        Component 0: refers to the physical time. It indicates the
-        maximum physical time of the simulation [s]
+        converging criteria. They will have to be defined by the user
+        if the corresponding criterion defined in v_criteria is active 
+        Component 0: refers to the simmulation time. It indicates the
+        maximum physical time of the simulation, in seconds
         Component 1: refers to the number of iterations. It indicates
         the maximum number of iterations
         Component 2: refers to the maximum error. It indicates the 
-        value of the maximum error desired
+        value of the maximum error desired (the threshold value)
         Component 3: refers to the maximum error. It indicates the 
-        number of iterations desired for the maximum error
+        number of iterations desired for the calculation of the maximum error
         Component 4: refers to the mean error. It indicates the 
-        value of the mean error desired
+        value of the mean error desired (the threshold value)
         Component 5: refers to the mean error. It indicates the 
-        number of iterations desired for the mean error 
+        number of iterations desired for the calculation of the mean error
 
     v_AndOr : vector with the same number of elements as the numer of 
         sopping criteria
@@ -48,18 +50,23 @@ def stopping_criterion(v_criteria, v_values, v_AndOr,
 
     activation_plots : configuration of the plot error
         (0): activation of the plot. 
-            0 if it is not activated
-            1 if it is activaned
-        (1): type of error to plot.
-            0 if it is the maximum error
-            1 if ir is the mean error
-        (2): sample frecuency in iterations 
+            0 if it is not activated. The converging error plot will not appear
+            during the simmulation
+            1 if it is activaned. The converging error plot will appear
+            during the simmulation
+        (1): activation of the maximum error plot
+            0 if the maximum error is not active
+            1 if the maximum error is active
+        (2): activation of the mean error plot
+            0 if the mean error is not active
+            1 if the mean error is active
+        (3): sample frecuency in iterations 
 
     w_sol: vector with as many elemens as cells there are in the domain 
         The temperature result in [k] corresponding to each cell is
         gathered in each element of the vector
 
-    t: variable indicating the physical time
+    t: variable indicating the simmulation time
 
     iteration : variable indicating the itertion of the porblem. It changes
         with each iteration
@@ -68,18 +75,19 @@ def stopping_criterion(v_criteria, v_values, v_AndOr,
     -------        
 
     stop : indicates if any of the converging criteria is satisfied
-        Returns 0 if the calculation must continue 
+        Returns 0 if the calculation must continue,, according to the 
+        criteria defined by the user.
         Returns 1 if the claculation is finished because the condition
-        is satisfied
+        is satisfied, according to the criteria defined by the user.
 
 
     stop_condition : returns a value indicating which convergence 
         criterion has been accomplished. 
-        Returns 1 if the criterion acomplished is the physical time
+        Returns 1 if the criterion acomplished is the simmulation time
         Returns 2 if the criterion acomplished is the number of iterations
-        Returns 3 if the criterion acomplished is the maximum time 
-        Returns 4 if the criterion acomplished is the mean time 
-             """  
+        Returns 3 if the criterion acomplished is the maximum error 
+        Returns 4 if the criterion acomplished is the mean error 
+        """ 
 
     stop_condition = np.zeros(4)
     calculated_value = np.zeros(4)

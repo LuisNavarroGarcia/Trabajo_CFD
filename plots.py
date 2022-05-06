@@ -5,6 +5,60 @@ from scipy.interpolate import griddata
 
 class ErrorPlot():
     
+    """class ErrorPlot : class to plot the evolution of the mean or maximum 
+    error with the iterations, to check their convergence. 
+    It will only appear if the activation plot option is activated. 
+
+    PARAMETERS
+    ----------
+
+    point : variable indicating the error calculated. It will be added as 
+    a new point in the plot, whether as a mean or as a maximum error, 
+    depending on the plot_type variable. 
+    
+    error_value : it indicates the threshold for the error. It can be refered to 
+    the mean error or to the maximum error, depending on the plot_type variable. 
+     
+    it : variable containing the iteration that will be added to the plot. 
+    
+    plot_type : variable to define if the point to be addend in the plot 
+    is refered to the maximum error evolution, or the mean eror one. 
+    (0) If the point added refers to maximum error
+    (1) If the point added refers to mean error
+
+    
+    act_plot : Variable defining if the plot is activated (and will 
+    appear during the simulation) or not. 
+    This option is set before runing the simulation by the user. 
+    (0) If the plot is not activated. 
+    (1) If the plot is not activated. 
+
+    INTERNAL PARAMETERS
+    -------------------
+
+    self.fig : variable to create the figre. 
+    It gathers all the figure plot settings
+
+    self.ax : variable generated to define the axis of the plot 
+    
+    OUTPUTS
+    ----------
+
+    self.data_point_it_for_max : vector array. It gathers each time the iteration 
+    (only the multiple ones of the sampling frequency, for the cases when maximum error 
+    is activated) for which a new point in the figure will appear. 
+
+    self.data_point_it_for_mean : vector array. It gathers each time the iteration 
+    (only the multiple ones of the sampling frequency, for the cases when mean error 
+    is activated) for which a new point in the figure will appear. 
+
+    self.data_point_y_max : it gathers for each iteration the corresponfing 
+    mean error, to be drawn if the plot. 
+
+    self.data_point_y_mean : it gathers for each iteration the corresponfing 
+    maximum error, to be drawn if the plot. 
+    """
+
     def __init__(self): 
         self.data_point_it_for_max = np.array([])
         self.data_point_it_for_mean = np.array([])
@@ -66,8 +120,10 @@ class ErrorPlot():
 
 def contour_plot(w, mesh, colourmap, interp_method):
     """
-    function contour_plot : plots the solution in a contour plot 
-    The solution is interpolated in the nodes of the mesh. 
+    function contour_plot : plots the solution, interpolating the 
+    results from each cell to get a smooth temperature contour.  
+    The solution is interpolated using the final result (last iteration of
+    the state vector, w).
     
     PARAMETERS
     ----------
@@ -76,43 +132,35 @@ def contour_plot(w, mesh, colourmap, interp_method):
     
     mesh : struc with all the mesh porperties.
     
-    num_map : variable to choose the colours of the contour plot
-        (0) indicates 'binary'
-        (1) indicates 'viridis'
-        (2) indicates 'inferno'
-        (3) indicates 'plasma'
-        (4) indicates 'magma'
-        (5) indicates 'cviridis'
-
-    num_interp : variable to choose the interpolation method used for the data
-        (0) indicates 'nearest' interpolation
-        (1) indicates 'linear' interpolation
-        (2) indicates 'cubic' interpolation
-        It is recommended to set the cubic interpolation, as it is the most precise one
+    colourmap : varianles used to choose the colours of the contour plot
+        Some examples to set in this variable: 'binary', 'viridis'
+        'inferno', 'plasma', 'magma', 'cviridis', etc.
         
+    interp_method : variable used to choose the interpolation method 
+        of the data from w. 
+        Some examples to set in this variable: 'nearest' , 'linear', 'cubic'.
+        It is recommended to set the cubic interpolation, as it is the most precise one.  
 
 
     INTERNAL PARAMETERS
     ----------
     
-    x_nodes : COLUM VECTOR with the x component of the mesh nodes
+    x_nodes : COLUM VECTOR. It gathers the x component of the mesh nodes
     
-    y_nodes : COLUMN VECTOR with the y component of the mesh nodes
+    y_nodes : COLUMN VECTOR. It gathers the the y component of the mesh nodes
     
-    asp_ratio : aspect ratio of the plot. In base of TAMA?? or the domain. 
-        It is a SCALAR VALUE. 
+    asp_ratio : aspect ratio of the plot. It is used to help in the scaling of the 
+    contour figure. Variation of the width over the hight of the figure. 
         
-    rec : reconstructed temperatures in the nodes, 
+    rec : reconstructed temperatures in the nodes. 
         It is a COLUMN VECTOR. 
         
     newpoitns : new points created when scaling the mesh 
         It is a SCALAR VALUE. 
         
-    Z : temperature matrix of the mesh. 
-        It is a N*2 MATRIX. 
-        
-    maps : available maps. Possible options: VERIDI and INFERNO.
-    """
+    Z : temperature matrix of the mesh obtained through the iterpolation. 
+        It is a N*2 MATRIX, corresponding to the 2 dimensions of the domain
+    """ 
     
     ##The data is read 
     conectivity_list = mesh.cells
